@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.axelor.apps.sale.report;
+package com.axelor.apps.sale.service.saleorder.print;
 
-public interface IReport {
+public interface SaleOrderReportService {
 
-  public static final String SALES_ORDER = "SaleOrder2.rptdesign";
+  public String getSaleOrderLineData(Long saleOrderId);
 }
