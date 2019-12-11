@@ -170,9 +170,11 @@ var myDataSet = SaleOrderReportServiceImpl.getInstance();
 
 var saleOrderLineData = myDataSet.getSaleOrderLineData(params["SaleOrderId"]);
 var saleOrderLineTaxData = myDataSet.getSaleOrderLineTaxData(params["SaleOrderId"]);
+var saleOrderData = myDataSet.getSaleOrderData(params["SaleOrderId"]);
 
 saleOrderLineJSON = eval('('+ saleOrderLineData +')');
 saleOrderLineTaxJSON = eval('('+ saleOrderLineTaxData +')');
+saleOrderJSON = eval('('+ saleOrderData +')');
 
 ]]></method>
         </script-data-source>
@@ -587,6 +589,808 @@ count = 0;]]></method>
 	row["ex_tax_base"] = saleOrderLineTaxJSON[count].ex_tax_base;
 	row["tax_total"] = saleOrderLineTaxJSON[count].tax_total;
 	row["value"] = saleOrderLineTaxJSON[count].value;
+	count++;
+	return true;
+}
+return false;]]></method>
+        </script-data-set>
+        <script-data-set name="SaleOrderDS" id="5378">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">id</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">saleOrderSeq</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CreationDate</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">invoicingAddress</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">deliveryAddress</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ex_tax_total</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">tax_total</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">in_tax_total</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">external_reference</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">description</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">deliveryDate</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">deliveryCondition</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">hideDiscount</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">status_select</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">specific_notes</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">versionNumber</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">periodicity_type_select</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">number_of_periods</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">subscription_text</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">end_of_validity_date</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">in_ati</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">proforma_comments</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">salesperson_signature_path</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">SalemanName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">SalemanPhone</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">SalemanEmail</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">CompanyName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">28</property>
+                    <property name="name">logo_height</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">29</property>
+                    <property name="name">logo_width</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">30</property>
+                    <property name="name">DisplaySaleman</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">31</property>
+                    <property name="name">ClientBox</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">32</property>
+                    <property name="name">LegalNote</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">33</property>
+                    <property name="name">DisplayDeliveryCondition</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">34</property>
+                    <property name="name">displayProductCodeOnPrinting</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">35</property>
+                    <property name="name">displayTaxDetailOnPrinting</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">36</property>
+                    <property name="name">displayEstimDelivDateOnPrinting</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">37</property>
+                    <property name="name">displayCustomerCodeOnPrinting</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">38</property>
+                    <property name="name">displayProductPictureOnPrinting</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">39</property>
+                    <property name="name">logoPath</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">40</property>
+                    <property name="name">CustomerCode</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">41</property>
+                    <property name="name">partner_type_select</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">42</property>
+                    <property name="name">ClientPartName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">43</property>
+                    <property name="name">ClientPartFirstName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">44</property>
+                    <property name="name">ClientTitle</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">45</property>
+                    <property name="name">ContactName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">46</property>
+                    <property name="name">ContactFirstName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">47</property>
+                    <property name="name">invoicecountry</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">48</property>
+                    <property name="name">DeliveryCountry</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">49</property>
+                    <property name="name">iban</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">50</property>
+                    <property name="name">bank_address</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">51</property>
+                    <property name="name">bic</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">52</property>
+                    <property name="name">header</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">53</property>
+                    <property name="name">footer</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">54</property>
+                    <property name="name">logoPosition</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">55</property>
+                    <property name="name">durationName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">56</property>
+                    <property name="name">CurrencyCode</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">saleOrderSeq</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CreationDate</property>
+                </structure>
+                <structure>
+                    <property name="columnName">invoicingAddress</property>
+                </structure>
+                <structure>
+                    <property name="columnName">deliveryAddress</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ex_tax_total</property>
+                </structure>
+                <structure>
+                    <property name="columnName">tax_total</property>
+                </structure>
+                <structure>
+                    <property name="columnName">in_tax_total</property>
+                </structure>
+                <structure>
+                    <property name="columnName">external_reference</property>
+                </structure>
+                <structure>
+                    <property name="columnName">description</property>
+                </structure>
+                <structure>
+                    <property name="columnName">deliveryDate</property>
+                </structure>
+                <structure>
+                    <property name="columnName">deliveryCondition</property>
+                </structure>
+                <structure>
+                    <property name="columnName">hideDiscount</property>
+                </structure>
+                <structure>
+                    <property name="columnName">status_select</property>
+                </structure>
+                <structure>
+                    <property name="columnName">specific_notes</property>
+                </structure>
+                <structure>
+                    <property name="columnName">versionNumber</property>
+                </structure>
+                <structure>
+                    <property name="columnName">periodicity_type_select</property>
+                </structure>
+                <structure>
+                    <property name="columnName">number_of_periods</property>
+                </structure>
+                <structure>
+                    <property name="columnName">subscription_text</property>
+                </structure>
+                <structure>
+                    <property name="columnName">end_of_validity_date</property>
+                </structure>
+                <structure>
+                    <property name="columnName">in_ati</property>
+                </structure>
+                <structure>
+                    <property name="columnName">proforma_comments</property>
+                </structure>
+                <structure>
+                    <property name="columnName">salesperson_signature_path</property>
+                </structure>
+                <structure>
+                    <property name="columnName">SalemanName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">SalemanPhone</property>
+                </structure>
+                <structure>
+                    <property name="columnName">SalemanEmail</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CompanyName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">logo_height</property>
+                </structure>
+                <structure>
+                    <property name="columnName">logo_width</property>
+                </structure>
+                <structure>
+                    <property name="columnName">DisplaySaleman</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ClientBox</property>
+                </structure>
+                <structure>
+                    <property name="columnName">LegalNote</property>
+                </structure>
+                <structure>
+                    <property name="columnName">DisplayDeliveryCondition</property>
+                </structure>
+                <structure>
+                    <property name="columnName">displayProductCodeOnPrinting</property>
+                </structure>
+                <structure>
+                    <property name="columnName">displayTaxDetailOnPrinting</property>
+                </structure>
+                <structure>
+                    <property name="columnName">displayEstimDelivDateOnPrinting</property>
+                </structure>
+                <structure>
+                    <property name="columnName">displayCustomerCodeOnPrinting</property>
+                </structure>
+                <structure>
+                    <property name="columnName">displayProductPictureOnPrinting</property>
+                </structure>
+                <structure>
+                    <property name="columnName">logoPath</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CustomerCode</property>
+                </structure>
+                <structure>
+                    <property name="columnName">partner_type_select</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ClientPartName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ClientPartFirstName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ClientTitle</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ContactName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ContactFirstName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">invoicecountry</property>
+                </structure>
+                <structure>
+                    <property name="columnName">DeliveryCountry</property>
+                </structure>
+                <structure>
+                    <property name="columnName">iban</property>
+                </structure>
+                <structure>
+                    <property name="columnName">bank_address</property>
+                </structure>
+                <structure>
+                    <property name="columnName">bic</property>
+                </structure>
+                <structure>
+                    <property name="columnName">header</property>
+                </structure>
+                <structure>
+                    <property name="columnName">footer</property>
+                </structure>
+                <structure>
+                    <property name="columnName">logoPosition</property>
+                </structure>
+                <structure>
+                    <property name="columnName">durationName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">CurrencyCode</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">id</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">saleOrderSeq</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">CreationDate</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">invoicingAddress</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">deliveryAddress</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">ex_tax_total</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">tax_total</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">in_tax_total</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">external_reference</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">description</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">deliveryDate</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">deliveryCondition</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">hideDiscount</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">status_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">specific_notes</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">versionNumber</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">periodicity_type_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">number_of_periods</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">subscription_text</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">end_of_validity_date</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">in_ati</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">proforma_comments</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">salesperson_signature_path</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">SalemanName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">SalemanPhone</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">SalemanEmail</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">CompanyName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">logo_height</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">logo_width</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">DisplaySaleman</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">31</property>
+                        <property name="name">ClientBox</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">32</property>
+                        <property name="name">LegalNote</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">33</property>
+                        <property name="name">DisplayDeliveryCondition</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">34</property>
+                        <property name="name">displayProductCodeOnPrinting</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">35</property>
+                        <property name="name">displayTaxDetailOnPrinting</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">36</property>
+                        <property name="name">displayEstimDelivDateOnPrinting</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">37</property>
+                        <property name="name">displayCustomerCodeOnPrinting</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">38</property>
+                        <property name="name">displayProductPictureOnPrinting</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">39</property>
+                        <property name="name">logoPath</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">40</property>
+                        <property name="name">CustomerCode</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">41</property>
+                        <property name="name">partner_type_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">42</property>
+                        <property name="name">ClientPartName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">43</property>
+                        <property name="name">ClientPartFirstName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">44</property>
+                        <property name="name">ClientTitle</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">45</property>
+                        <property name="name">ContactName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">46</property>
+                        <property name="name">ContactFirstName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">47</property>
+                        <property name="name">invoicecountry</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">48</property>
+                        <property name="name">DeliveryCountry</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">49</property>
+                        <property name="name">iban</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">50</property>
+                        <property name="name">bank_address</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">51</property>
+                        <property name="name">bic</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">52</property>
+                        <property name="name">header</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">53</property>
+                        <property name="name">footer</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">54</property>
+                        <property name="name">logoPosition</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">55</property>
+                        <property name="name">durationName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">56</property>
+                        <property name="name">CurrencyCode</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">SC Data Source</property>
+            <method name="open"><![CDATA[len = saleOrderJSON.length;
+count = 0;]]></method>
+            <method name="fetch"><![CDATA[if(count < len){
+	row["id"] = saleOrderJSON[count].id;
+	row["saleOrderSeq"] = saleOrderJSON[count].saleOrderSeq;
+	row["CreationDate"] = saleOrderJSON[count].CreationDate;
+	row["invoicingAddress"] = saleOrderJSON[count].invoicingAddress;
+	row["deliveryAddress"] = saleOrderJSON[count].deliveryAddress;
+	row["ex_tax_total"] = saleOrderJSON[count].ex_tax_total;
+	row["tax_total"] = saleOrderJSON[count].tax_total;
+	row["in_tax_total"] = saleOrderJSON[count].in_tax_total;
+	row["external_reference"] = saleOrderJSON[count].external_reference;
+	row["description"] = saleOrderJSON[count].description;
+	row["deliveryDate"] = saleOrderJSON[count].deliveryDate;
+	row["deliveryCondition"] = saleOrderJSON[count].deliveryCondition;
+	row["hideDiscount"] = saleOrderJSON[count].hideDiscount;
+	row["status_select"] = saleOrderJSON[count].status_select;
+	row["specific_notes"] = saleOrderJSON[count].specific_notes;
+	row["versionNumber"] = saleOrderJSON[count].versionNumber;
+	row["periodicity_type_select"] = saleOrderJSON[count].periodicity_type_select;
+	row["number_of_periods"] = saleOrderJSON[count].number_of_periods;
+	row["subscription_text"] = saleOrderJSON[count].subscription_text;
+	row["end_of_validity_date"] = saleOrderJSON[count].end_of_validity_date;
+	row["in_ati"] = saleOrderJSON[count].in_ati;
+	row["proforma_comments"] = saleOrderJSON[count].proforma_comments;
+	row["salesperson_signature_path"] = saleOrderJSON[count].salesperson_signature_path;
+	row["SalemanName"] = saleOrderJSON[count].SalemanName;
+	row["SalemanPhone"] = saleOrderJSON[count].SalemanPhone;
+	row["SalemanEmail"] = saleOrderJSON[count].SalemanEmail;
+	row["CompanyName"] = saleOrderJSON[count].CompanyName;
+	row["logo_height"] = saleOrderJSON[count].logo_height;
+	row["logo_width"] = saleOrderJSON[count].logo_width;
+	row["DisplaySaleman"] = saleOrderJSON[count].DisplaySaleman;
+	row["ClientBox"] = saleOrderJSON[count].ClientBox;
+	row["LegalNote"] = saleOrderJSON[count].LegalNote;
+	row["DisplayDeliveryCondition"] = saleOrderJSON[count].DisplayDeliveryCondition;
+	row["displayProductCodeOnPrinting"] = saleOrderJSON[count].displayProductCodeOnPrinting;
+	row["displayTaxDetailOnPrinting"] = saleOrderJSON[count].displayTaxDetailOnPrinting;
+	row["displayEstimDelivDateOnPrinting"] = saleOrderJSON[count].displayEstimDelivDateOnPrinting;
+	row["displayCustomerCodeOnPrinting"] = saleOrderJSON[count].displayCustomerCodeOnPrinting;
+	row["displayProductPictureOnPrinting"] = saleOrderJSON[count].displayProductPictureOnPrinting;
+	row["logoPath"] = saleOrderJSON[count].logoPath;
+	row["CustomerCode"] = saleOrderJSON[count].CustomerCode;
+	row["partner_type_select"] = saleOrderJSON[count].partner_type_select;
+	row["ClientPartName"] = saleOrderJSON[count].ClientPartName;
+	row["ClientPartFirstName"] = saleOrderJSON[count].ClientPartFirstName;
+	row["ClientTitle"] = saleOrderJSON[count].ClientTitle;
+	row["ContactName"] = saleOrderJSON[count].ContactName;
+	row["ContactFirstName"] = saleOrderJSON[count].ContactFirstName;
+	row["invoicecountry"] = saleOrderJSON[count].invoicecountry;
+	row["DeliveryCountry"] = saleOrderJSON[count].DeliveryCountry;
+	row["iban"] = saleOrderJSON[count].iban;
+	row["bank_address"] = saleOrderJSON[count].bank_address;
+	row["bic"] = saleOrderJSON[count].bic;
+	row["CurrencyCode"] = saleOrderJSON[count].CurrencyCode;
+	row["header"] = saleOrderJSON[count].header;
+	row["footer"] = saleOrderJSON[count].footer;
+	row["logoPosition"] = saleOrderJSON[count].logoPosition;
+	row["durationName"] = saleOrderJSON[count].durationName;
 	count++;
 	return true;
 }

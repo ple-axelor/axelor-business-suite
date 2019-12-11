@@ -17,16 +17,25 @@
  */
 package com.axelor.apps.sale.service.saleorder.print;
 
+import com.axelor.apps.base.db.BankAddress;
+import com.axelor.apps.base.db.BankDetails;
+import com.axelor.apps.base.db.Company;
+import com.axelor.apps.base.db.Country;
+import com.axelor.apps.base.db.Partner;
+import com.axelor.apps.base.db.PrintingSettings;
 import com.axelor.apps.base.db.Product;
 import com.axelor.apps.sale.db.CustomerCatalog;
+import com.axelor.apps.sale.db.SaleConfig;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.SaleOrderLine;
 import com.axelor.apps.sale.db.SaleOrderLineTax;
 import com.axelor.apps.sale.db.repo.SaleOrderLineRepository;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
+import com.axelor.auth.db.User;
 import com.axelor.common.ObjectUtils;
 import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
+import com.axelor.meta.db.MetaFile;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
@@ -150,6 +159,138 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
         }
       }
     }
+    String dataMapJSONString = null;
+    try {
+      dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));
+    } catch (JsonProcessingException e) {
+      TraceBackService.trace(e);
+    }
+    return dataMapJSONString;
+  }
+
+  // ShipmentDate,sale_order_type_select,isIspmRequired,paymentCondition,paymentMode is in
+  // SupplyChain
+  @Override
+  public String getSaleOrderData(Long saleOrderId) {
+    SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
+    Map<String, Object> dataMap = new HashMap<>();
+
+    dataMap.put("id", saleOrderId);
+    dataMap.put("saleOrderSeq", saleOrder.getSaleOrderSeq());
+    dataMap.put("CreationDate", saleOrder.getCreationDate());
+    dataMap.put("invoicingAddress", saleOrder.getMainInvoicingAddressStr());
+    dataMap.put("deliveryAddress", saleOrder.getDeliveryAddressStr());
+    dataMap.put("ex_tax_total", saleOrder.getExTaxTotal());
+    dataMap.put("tax_total", saleOrder.getTaxTotal());
+    dataMap.put("in_tax_total", saleOrder.getInTaxTotal());
+    dataMap.put("external_reference", saleOrder.getExternalReference());
+    dataMap.put("description", saleOrder.getDescription());
+    dataMap.put("deliveryDate", saleOrder.getDeliveryDate());
+    dataMap.put("deliveryCondition", saleOrder.getDeliveryCondition());
+    dataMap.put("hideDiscount", saleOrder.getHideDiscount());
+    dataMap.put("status_select", saleOrder.getStatusSelect());
+    dataMap.put("specific_notes", saleOrder.getSpecificNotes());
+    dataMap.put("versionNumber", saleOrder.getVersionNumber());
+    dataMap.put("periodicity_type_select", saleOrder.getPeriodicityTypeSelect());
+    dataMap.put("number_of_periods", saleOrder.getNumberOfPeriods());
+    dataMap.put("subscription_text", saleOrder.getSubscriptionText());
+    dataMap.put("end_of_validity_date", saleOrder.getEndOfValidityDate());
+    dataMap.put("in_ati", saleOrder.getInAti());
+    dataMap.put("proforma_comments", saleOrder.getProformaComments());
+
+    User salespersonUser = saleOrder.getSalespersonUser();
+    if (ObjectUtils.notEmpty(salespersonUser)) {
+      if (ObjectUtils.notEmpty(salespersonUser.getElectronicSignature())) {
+        dataMap.put(
+            "salesperson_signature_path", salespersonUser.getElectronicSignature().getFilePath());
+      }
+      Partner salesmanPartner = salespersonUser.getPartner();
+      if (ObjectUtils.notEmpty(salesmanPartner)) {
+        dataMap.put(
+            "SalemanName", salesmanPartner.getName() + " " + salesmanPartner.getFirstName());
+        dataMap.put("SalemanPhone", salesmanPartner.getFixedPhone());
+        if (ObjectUtils.notEmpty(salesmanPartner.getEmailAddress())) {
+          dataMap.put("SalemanEmail", salesmanPartner.getEmailAddress().getAddress());
+        }
+      }
+    }
+
+    Company company = saleOrder.getCompany();
+    dataMap.put("CompanyName", company.getName());
+    dataMap.put("logo_height", company.getHeight());
+    dataMap.put("logo_width", company.getWidth());
+    SaleConfig saleConfig = company.getSaleConfig();
+    if (ObjectUtils.notEmpty(saleConfig)) {
+      dataMap.put("DisplaySaleman", saleConfig.getDisplaySalemanOnPrinting());
+      dataMap.put("ClientBox", saleConfig.getSaleOrderClientBox());
+      dataMap.put("LegalNote", saleConfig.getSaleOrderLegalNote());
+      dataMap.put("DisplayDeliveryCondition", saleConfig.getDisplayDelCondOnPrinting());
+      dataMap.put("displayProductCodeOnPrinting", saleConfig.getDisplayProductCodeOnPrinting());
+      dataMap.put("displayTaxDetailOnPrinting", saleConfig.getDisplayTaxDetailOnPrinting());
+      dataMap.put(
+          "displayEstimDelivDateOnPrinting", saleConfig.getDisplayEstimDelivDateOnPrinting());
+      dataMap.put("displayCustomerCodeOnPrinting", saleConfig.getDisplayCustomerCodeOnPrinting());
+      dataMap.put(
+          "displayProductPictureOnPrinting", saleConfig.getDisplayProductPictureOnPrinting());
+    }
+
+    MetaFile companyLogo = company.getLogo();
+    if (ObjectUtils.notEmpty(companyLogo)) {
+      dataMap.put("logoPath", companyLogo.getFilePath());
+    } else if (ObjectUtils.notEmpty(saleOrder.getTradingName())) {
+      MetaFile tradingLogo = saleOrder.getTradingName().getLogo();
+      if (ObjectUtils.notEmpty(tradingLogo)) {
+        dataMap.put("logoPath", tradingLogo.getFilePath());
+      }
+    }
+
+    Partner clientPartner = saleOrder.getClientPartner();
+    dataMap.put("CustomerCode", clientPartner.getPartnerSeq());
+    dataMap.put("partner_type_select", clientPartner.getPartnerSeq());
+    dataMap.put("ClientPartName", clientPartner.getName());
+    dataMap.put("ClientPartFirstName", clientPartner.getFirstName());
+    dataMap.put("ClientTitle", clientPartner.getTitleSelect());
+
+    Partner contactPartner = saleOrder.getContactPartner();
+    if (ObjectUtils.notEmpty(contactPartner)) {
+      dataMap.put("ContactName", contactPartner.getName());
+      dataMap.put("ContactFirstName", contactPartner.getFirstName());
+    }
+
+    if (ObjectUtils.notEmpty(saleOrder.getMainInvoicingAddress())) {
+      Country invoicingCountry = saleOrder.getMainInvoicingAddress().getAddressL7Country();
+      dataMap.put("invoicecountry", invoicingCountry.getName());
+    }
+    if (ObjectUtils.notEmpty(saleOrder.getDeliveryAddress())) {
+      Country deliveryCountry = saleOrder.getDeliveryAddress().getAddressL7Country();
+      dataMap.put("DeliveryCountry", deliveryCountry.getName());
+    }
+
+    BankDetails bankDetails = saleOrder.getCompanyBankDetails();
+    if (ObjectUtils.notEmpty(bankDetails)) {
+      dataMap.put("iban", bankDetails.getIban());
+      BankAddress bankAddress = bankDetails.getBankAddress();
+      if (ObjectUtils.notEmpty(bankAddress)) {
+        if (ObjectUtils.notEmpty(bankAddress.getAddress())) {
+          dataMap.put("bank_address", bankAddress.getAddress());
+        }
+      }
+      dataMap.put("bic", bankDetails.getBank().getCode());
+    }
+
+    dataMap.put("CurrencyCode", saleOrder.getCurrency().getCode());
+
+    PrintingSettings printingSettings = saleOrder.getPrintingSettings();
+    if (ObjectUtils.notEmpty(printingSettings)) {
+      dataMap.put("header", printingSettings.getPdfHeader());
+      dataMap.put("footer", printingSettings.getPdfFooter());
+      dataMap.put("logoPosition", printingSettings.getLogoPositionSelect());
+    }
+
+    if (ObjectUtils.notEmpty(saleOrder.getDuration())) {
+      dataMap.put("durationName", saleOrder.getDuration().getName());
+    }
+
     String dataMapJSONString = null;
     try {
       dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));

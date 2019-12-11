@@ -22,4 +22,6 @@ public interface SaleOrderReportService {
   public String getSaleOrderLineData(Long saleOrderId);
 
   public String getSaleOrderLineTaxData(Long saleOrderId);
+
+  public String getSaleOrderData(Long saleOrderId);
 }
