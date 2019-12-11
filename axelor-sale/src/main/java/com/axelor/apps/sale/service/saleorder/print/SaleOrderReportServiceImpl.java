@@ -21,6 +21,7 @@ import com.axelor.apps.base.db.Product;
 import com.axelor.apps.sale.db.CustomerCatalog;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.SaleOrderLine;
+import com.axelor.apps.sale.db.SaleOrderLineTax;
 import com.axelor.apps.sale.db.repo.SaleOrderLineRepository;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.common.ObjectUtils;
@@ -124,6 +125,31 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     }
     dataMap.put("CurrencyCode", saleOrder.getCurrency().getCode());
     dataMap.put("in_ati", saleOrder.getInAti());
+    String dataMapJSONString = null;
+    try {
+      dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));
+    } catch (JsonProcessingException e) {
+      TraceBackService.trace(e);
+    }
+    return dataMapJSONString;
+  }
+
+  // sale_order_type_select is in SupplyChain
+  @Override
+  public String getSaleOrderLineTaxData(Long saleOrderId) {
+    SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
+    Map<String, Object> dataMap = new HashMap<>();
+
+    List<SaleOrderLineTax> saleOrderLineTaxList = saleOrder.getSaleOrderLineTaxList();
+    if (CollectionUtils.isNotEmpty(saleOrderLineTaxList)) {
+      for (SaleOrderLineTax saleOrderLineTax : saleOrderLineTaxList) {
+        dataMap.put("ex_tax_base", saleOrderLineTax.getExTaxBase());
+        dataMap.put("tax_total", saleOrderLineTax.getTaxTotal());
+        if (ObjectUtils.notEmpty(saleOrderLineTax.getTaxLine())) {
+          dataMap.put("value", saleOrderLineTax.getTaxLine().getValue());
+        }
+      }
+    }
     String dataMapJSONString = null;
     try {
       dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));

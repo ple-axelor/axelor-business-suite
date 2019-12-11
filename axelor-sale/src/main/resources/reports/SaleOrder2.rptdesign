@@ -169,8 +169,11 @@ reportContext.getDesignHandle().findMasterPage("Simple MasterPage").setProperty(
 var myDataSet = SaleOrderReportServiceImpl.getInstance();
 
 var saleOrderLineData = myDataSet.getSaleOrderLineData(params["SaleOrderId"]);
+var saleOrderLineTaxData = myDataSet.getSaleOrderLineTaxData(params["SaleOrderId"]);
 
 saleOrderLineJSON = eval('('+ saleOrderLineData +')');
+saleOrderLineTaxJSON = eval('('+ saleOrderLineTaxData +')');
+
 ]]></method>
         </script-data-source>
     </data-sources>
@@ -529,6 +532,66 @@ count = 0;]]></method>
 }
 return false;]]></method>
         </script-data-set>
+        <script-data-set name="SaleOrderLineTaxDS" id="5377">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">ex_tax_base</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">tax_total</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">value</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">ex_tax_base</property>
+                </structure>
+                <structure>
+                    <property name="columnName">tax_total</property>
+                </structure>
+                <structure>
+                    <property name="columnName">value</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">ex_tax_base</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">tax_total</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">value</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">SC Data Source</property>
+            <method name="open"><![CDATA[len = saleOrderLineTaxJSON.length;
+count = 0;]]></method>
+            <method name="fetch"><![CDATA[if(count < len){
+	row["ex_tax_base"] = saleOrderLineTaxJSON[count].ex_tax_base;
+	row["tax_total"] = saleOrderLineTaxJSON[count].tax_total;
+	row["value"] = saleOrderLineTaxJSON[count].value;
+	count++;
+	return true;
+}
+return false;]]></method>
+        </script-data-set>
     </data-sets>
     <styles>
         <style name="report" id="4">
@@ -575,457 +638,6 @@ return false;]]></method>
             <property name="footerHeight">2.4cm</property>
         </simple-master-page>
     </page-setup>
-    <body>
-        <table id="5387">
-            <property name="dataSet">OrderLineDS</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">id</property>
-                    <text-property name="displayName">id</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["id"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">description</property>
-                    <text-property name="displayName">description</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["description"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">quantity</property>
-                    <text-property name="displayName">quantity</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["quantity"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">ProductName</property>
-                    <text-property name="displayName">ProductName</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["ProductName"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">ex_tax_total</property>
-                    <text-property name="displayName">ex_tax_total</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["ex_tax_total"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">in_taxTotal</property>
-                    <text-property name="displayName">in_taxTotal</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["in_taxTotal"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">sequence</property>
-                    <text-property name="displayName">sequence</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["sequence"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">EstimatedDeliveryDate</property>
-                    <text-property name="displayName">EstimatedDeliveryDate</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["EstimatedDeliveryDate"]</expression>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="name">price_discounted</property>
-                    <text-property name="displayName">price_discounted</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["price_discounted"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">showTotal</property>
-                    <text-property name="displayName">showTotal</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["showTotal"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">hideUnitAmounts</property>
-                    <text-property name="displayName">hideUnitAmounts</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["hideUnitAmounts"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">UnitCode</property>
-                    <text-property name="displayName">UnitCode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["UnitCode"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">unit_price</property>
-                    <text-property name="displayName">unit_price</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["unit_price"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">tax_line</property>
-                    <text-property name="displayName">tax_line</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["tax_line"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">productCode</property>
-                    <text-property name="displayName">productCode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["productCode"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">product_type_select</property>
-                    <text-property name="displayName">product_type_select</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["product_type_select"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">productPicture</property>
-                    <text-property name="displayName">productPicture</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["productPicture"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CustomerProductCode</property>
-                    <text-property name="displayName">CustomerProductCode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CustomerProductCode"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">CustomerProductName</property>
-                    <text-property name="displayName">CustomerProductName</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CustomerProductName"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">totalDiscountAmount</property>
-                    <text-property name="displayName">totalDiscountAmount</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["totalDiscountAmount"]</expression>
-                    <property name="dataType">decimal</property>
-                </structure>
-                <structure>
-                    <property name="name">is_title_line</property>
-                    <text-property name="displayName">is_title_line</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["is_title_line"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">PackHideUnitAmounts</property>
-                    <text-property name="displayName">PackHideUnitAmounts</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["PackHideUnitAmounts"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">CurrencyCode</property>
-                    <text-property name="displayName">CurrencyCode</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["CurrencyCode"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">in_ati</property>
-                    <text-property name="displayName">in_ati</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["in_ati"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-            </list-property>
-            <column id="5511"/>
-            <column id="5512"/>
-            <column id="5513"/>
-            <column id="5514"/>
-            <column id="5515"/>
-            <column id="5516"/>
-            <column id="5517"/>
-            <column id="5518"/>
-            <column id="5519"/>
-            <column id="5520"/>
-            <column id="5521"/>
-            <column id="5522"/>
-            <column id="5523"/>
-            <column id="5524"/>
-            <column id="5525"/>
-            <column id="5526"/>
-            <column id="5527"/>
-            <column id="5528"/>
-            <column id="5529"/>
-            <column id="5530"/>
-            <column id="5531"/>
-            <column id="5532"/>
-            <column id="5533"/>
-            <column id="5534"/>
-            <header>
-                <row id="5388">
-                    <cell id="5389">
-                        <label id="5390">
-                            <text-property name="text">id</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5391">
-                        <label id="5392">
-                            <text-property name="text">description</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5393">
-                        <label id="5394">
-                            <text-property name="text">quantity</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5395">
-                        <label id="5396">
-                            <text-property name="text">ProductName</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5397">
-                        <label id="5398">
-                            <text-property name="text">ex_tax_total</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5399">
-                        <label id="5400">
-                            <text-property name="text">in_taxTotal</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5401">
-                        <label id="5402">
-                            <text-property name="text">sequence</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5403">
-                        <label id="5404">
-                            <text-property name="text">EstimatedDeliveryDate</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5405">
-                        <label id="5406">
-                            <text-property name="text">price_discounted</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5407">
-                        <label id="5408">
-                            <text-property name="text">showTotal</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5409">
-                        <label id="5410">
-                            <text-property name="text">hideUnitAmounts</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5411">
-                        <label id="5412">
-                            <text-property name="text">UnitCode</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5413">
-                        <label id="5414">
-                            <text-property name="text">unit_price</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5415">
-                        <label id="5416">
-                            <text-property name="text">tax_line</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5417">
-                        <label id="5418">
-                            <text-property name="text">productCode</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5419">
-                        <label id="5420">
-                            <text-property name="text">product_type_select</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5421">
-                        <label id="5422">
-                            <text-property name="text">productPicture</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5423">
-                        <label id="5424">
-                            <text-property name="text">CustomerProductCode</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5425">
-                        <label id="5426">
-                            <text-property name="text">CustomerProductName</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5427">
-                        <label id="5428">
-                            <text-property name="text">totalDiscountAmount</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5429">
-                        <label id="5430">
-                            <text-property name="text">is_title_line</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5431">
-                        <label id="5432">
-                            <text-property name="text">PackHideUnitAmounts</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5433">
-                        <label id="5434">
-                            <text-property name="text">CurrencyCode</text-property>
-                        </label>
-                    </cell>
-                    <cell id="5435">
-                        <label id="5436">
-                            <text-property name="text">in_ati</text-property>
-                        </label>
-                    </cell>
-                </row>
-            </header>
-            <detail>
-                <row id="5437">
-                    <cell id="5438">
-                        <data id="5439">
-                            <property name="resultSetColumn">id</property>
-                        </data>
-                    </cell>
-                    <cell id="5440">
-                        <data id="5441">
-                            <property name="resultSetColumn">description</property>
-                        </data>
-                    </cell>
-                    <cell id="5442">
-                        <data id="5443">
-                            <property name="resultSetColumn">quantity</property>
-                        </data>
-                    </cell>
-                    <cell id="5444">
-                        <data id="5445">
-                            <property name="resultSetColumn">ProductName</property>
-                        </data>
-                    </cell>
-                    <cell id="5446">
-                        <data id="5447">
-                            <property name="resultSetColumn">ex_tax_total</property>
-                        </data>
-                    </cell>
-                    <cell id="5448">
-                        <data id="5449">
-                            <property name="resultSetColumn">in_taxTotal</property>
-                        </data>
-                    </cell>
-                    <cell id="5450">
-                        <data id="5451">
-                            <property name="resultSetColumn">sequence</property>
-                        </data>
-                    </cell>
-                    <cell id="5452">
-                        <data id="5453">
-                            <property name="resultSetColumn">EstimatedDeliveryDate</property>
-                        </data>
-                    </cell>
-                    <cell id="5454">
-                        <data id="5455">
-                            <property name="resultSetColumn">price_discounted</property>
-                        </data>
-                    </cell>
-                    <cell id="5456">
-                        <data id="5457">
-                            <property name="resultSetColumn">showTotal</property>
-                        </data>
-                    </cell>
-                    <cell id="5458">
-                        <data id="5459">
-                            <property name="resultSetColumn">hideUnitAmounts</property>
-                        </data>
-                    </cell>
-                    <cell id="5460">
-                        <data id="5461">
-                            <property name="resultSetColumn">UnitCode</property>
-                        </data>
-                    </cell>
-                    <cell id="5462">
-                        <data id="5463">
-                            <property name="resultSetColumn">unit_price</property>
-                        </data>
-                    </cell>
-                    <cell id="5464">
-                        <data id="5465">
-                            <property name="resultSetColumn">tax_line</property>
-                        </data>
-                    </cell>
-                    <cell id="5466">
-                        <data id="5467">
-                            <property name="resultSetColumn">productCode</property>
-                        </data>
-                    </cell>
-                    <cell id="5468">
-                        <data id="5469">
-                            <property name="resultSetColumn">product_type_select</property>
-                        </data>
-                    </cell>
-                    <cell id="5470">
-                        <data id="5471">
-                            <property name="resultSetColumn">productPicture</property>
-                        </data>
-                    </cell>
-                    <cell id="5472">
-                        <data id="5473">
-                            <property name="resultSetColumn">CustomerProductCode</property>
-                        </data>
-                    </cell>
-                    <cell id="5474">
-                        <data id="5475">
-                            <property name="resultSetColumn">CustomerProductName</property>
-                        </data>
-                    </cell>
-                    <cell id="5476">
-                        <data id="5477">
-                            <property name="resultSetColumn">totalDiscountAmount</property>
-                        </data>
-                    </cell>
-                    <cell id="5478">
-                        <data id="5479">
-                            <property name="resultSetColumn">is_title_line</property>
-                        </data>
-                    </cell>
-                    <cell id="5480">
-                        <data id="5481">
-                            <property name="resultSetColumn">PackHideUnitAmounts</property>
-                        </data>
-                    </cell>
-                    <cell id="5482">
-                        <data id="5483">
-                            <property name="resultSetColumn">CurrencyCode</property>
-                        </data>
-                    </cell>
-                    <cell id="5484">
-                        <data id="5485">
-                            <property name="resultSetColumn">in_ati</property>
-                        </data>
-                    </cell>
-                </row>
-            </detail>
-            <footer>
-                <row id="5486">
-                    <cell id="5487"/>
-                    <cell id="5488"/>
-                    <cell id="5489"/>
-                    <cell id="5490"/>
-                    <cell id="5491"/>
-                    <cell id="5492"/>
-                    <cell id="5493"/>
-                    <cell id="5494"/>
-                    <cell id="5495"/>
-                    <cell id="5496"/>
-                    <cell id="5497"/>
-                    <cell id="5498"/>
-                    <cell id="5499"/>
-                    <cell id="5500"/>
-                    <cell id="5501"/>
-                    <cell id="5502"/>
-                    <cell id="5503"/>
-                    <cell id="5504"/>
-                    <cell id="5505"/>
-                    <cell id="5506"/>
-                    <cell id="5507"/>
-                    <cell id="5508"/>
-                    <cell id="5509"/>
-                    <cell id="5510"/>
-                </row>
-            </footer>
-        </table>
-    </body>
     <property name="pageVariables">
         <variable-element name="ex_total">
             <expression name="value" type="javascript">0.00</expression>

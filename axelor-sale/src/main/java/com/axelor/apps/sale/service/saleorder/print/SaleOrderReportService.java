@@ -20,4 +20,6 @@ package com.axelor.apps.sale.service.saleorder.print;
 public interface SaleOrderReportService {
 
   public String getSaleOrderLineData(Long saleOrderId);
+
+  public String getSaleOrderLineTaxData(Long saleOrderId);
 }
