@@ -24,6 +24,7 @@ import com.axelor.apps.base.db.Country;
 import com.axelor.apps.base.db.Partner;
 import com.axelor.apps.base.db.PrintingSettings;
 import com.axelor.apps.base.db.Product;
+import com.axelor.apps.base.db.repo.AppBaseRepository;
 import com.axelor.apps.sale.db.CustomerCatalog;
 import com.axelor.apps.sale.db.SaleConfig;
 import com.axelor.apps.sale.db.SaleOrder;
@@ -290,6 +291,22 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     if (ObjectUtils.notEmpty(saleOrder.getDuration())) {
       dataMap.put("durationName", saleOrder.getDuration().getName());
     }
+
+    String dataMapJSONString = null;
+    try {
+      dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));
+    } catch (JsonProcessingException e) {
+      TraceBackService.trace(e);
+    }
+    return dataMapJSONString;
+  }
+
+  @Override
+  public String getAppBase() {
+    Map<String, Object> dataMap = new HashMap<>();
+    int nbDecimalDigitForUnitPrice =
+        Beans.get(AppBaseRepository.class).all().fetchOne().getNbDecimalDigitForUnitPrice();
+    dataMap.put("nbDecimalDigitForUnitPrice", nbDecimalDigitForUnitPrice);
 
     String dataMapJSONString = null;
     try {

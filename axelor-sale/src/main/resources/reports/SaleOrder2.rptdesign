@@ -171,11 +171,12 @@ var myDataSet = SaleOrderReportServiceImpl.getInstance();
 var saleOrderLineData = myDataSet.getSaleOrderLineData(params["SaleOrderId"]);
 var saleOrderLineTaxData = myDataSet.getSaleOrderLineTaxData(params["SaleOrderId"]);
 var saleOrderData = myDataSet.getSaleOrderData(params["SaleOrderId"]);
+var nbDecimalDigitForUnitPrice = myDataSet.getAppBase();
 
 saleOrderLineJSON = eval('('+ saleOrderLineData +')');
 saleOrderLineTaxJSON = eval('('+ saleOrderLineTaxData +')');
 saleOrderJSON = eval('('+ saleOrderData +')');
-
+nbDecimalDigitForUnitPriceJSON= eval('('+ nbDecimalDigitForUnitPrice +')');
 ]]></method>
         </script-data-source>
     </data-sources>
@@ -1391,6 +1392,38 @@ count = 0;]]></method>
 	row["footer"] = saleOrderJSON[count].footer;
 	row["logoPosition"] = saleOrderJSON[count].logoPosition;
 	row["durationName"] = saleOrderJSON[count].durationName;
+	count++;
+	return true;
+}
+return false;]]></method>
+        </script-data-set>
+        <script-data-set name="AppBaseDS" id="5379">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">nbDecimalDigitForUnitPrice</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">nbDecimalDigitForUnitPrice</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">nbDecimalDigitForUnitPrice</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">SC Data Source</property>
+            <method name="open"><![CDATA[len = nbDecimalDigitForUnitPriceJSON.length;
+count = 0;]]></method>
+            <method name="fetch"><![CDATA[if(count < len){
+row["nbDecimalDigitForUnitPrice"] = nbDecimalDigitForUnitPriceJSON[0].nbDecimalDigitForUnitPrice;
 	count++;
 	return true;
 }
