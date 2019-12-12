@@ -1429,6 +1429,52 @@ row["nbDecimalDigitForUnitPrice"] = nbDecimalDigitForUnitPriceJSON[0].nbDecimalD
 }
 return false;]]></method>
         </script-data-set>
+        <script-data-set name="TranslateDS" id="5380">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">message_key</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">translation</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">message_key</property>
+                </structure>
+                <structure>
+                    <property name="columnName">translation</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">message_key</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">translation</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">SC Data Source</property>
+            <method name="open"><![CDATA[count = 0;
+len = 1;]]></method>
+            <method name="fetch"><![CDATA[if(count < len){
+row["message_key"] = "mk";
+row["translation"] = "trans";
+count++;
+return true;
+}
+return false;]]></method>
+        </script-data-set>
     </data-sets>
     <styles>
         <style name="report" id="4">
