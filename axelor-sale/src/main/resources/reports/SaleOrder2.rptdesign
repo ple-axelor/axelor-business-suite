@@ -163,7 +163,7 @@ reportContext.getDesignHandle().findMasterPage("Simple MasterPage").setProperty(
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <script-data-source name="SC Data Source" id="5374">
+        <script-data-source name="Data Source2" id="5374">
             <method name="open"><![CDATA[importPackage(com.axelor.apps.sale.service.saleorder.print);
 
 var myDataSet = SaleOrderReportServiceImpl.getInstance();
@@ -181,7 +181,7 @@ nbDecimalDigitForUnitPriceJSON= eval('('+ nbDecimalDigitForUnitPrice +')');
         </script-data-source>
     </data-sources>
     <data-sets>
-        <script-data-set name="OrderLineDS" id="5376">
+        <script-data-set name="OrderLineDS2" id="5376">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -502,7 +502,7 @@ nbDecimalDigitForUnitPriceJSON= eval('('+ nbDecimalDigitForUnitPrice +')');
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">SC Data Source</property>
+            <property name="dataSource">Data Source2</property>
             <method name="open"><![CDATA[len = saleOrderLineJSON.length;
 count = 0;]]></method>
             <method name="fetch"><![CDATA[if(count < len){
@@ -535,7 +535,7 @@ count = 0;]]></method>
 }
 return false;]]></method>
         </script-data-set>
-        <script-data-set name="SaleOrderLineTaxDS" id="5377">
+        <script-data-set name="SaleOrderLineTaxDS2" id="5377">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -583,7 +583,7 @@ return false;]]></method>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">SC Data Source</property>
+            <property name="dataSource">Data Source2</property>
             <method name="open"><![CDATA[len = saleOrderLineTaxJSON.length;
 count = 0;]]></method>
             <method name="fetch"><![CDATA[if(count < len){
@@ -595,7 +595,7 @@ count = 0;]]></method>
 }
 return false;]]></method>
         </script-data-set>
-        <script-data-set name="SaleOrderDS" id="5378">
+        <script-data-set name="SaleOrderDS2" id="5378">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -1332,7 +1332,7 @@ return false;]]></method>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">SC Data Source</property>
+            <property name="dataSource">Data Source2</property>
             <method name="open"><![CDATA[len = saleOrderJSON.length;
 count = 0;]]></method>
             <method name="fetch"><![CDATA[if(count < len){
@@ -1397,7 +1397,7 @@ count = 0;]]></method>
 }
 return false;]]></method>
         </script-data-set>
-        <script-data-set name="AppBaseDS" id="5379">
+        <script-data-set name="AppBaseDS2" id="5379">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -1419,7 +1419,7 @@ return false;]]></method>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">SC Data Source</property>
+            <property name="dataSource">Data Source2</property>
             <method name="open"><![CDATA[len = nbDecimalDigitForUnitPriceJSON.length;
 count = 0;]]></method>
             <method name="fetch"><![CDATA[if(count < len){
@@ -1429,7 +1429,7 @@ row["nbDecimalDigitForUnitPrice"] = nbDecimalDigitForUnitPriceJSON[0].nbDecimalD
 }
 return false;]]></method>
         </script-data-set>
-        <script-data-set name="TranslateDS" id="5380">
+        <script-data-set name="TranslateDS2" id="5380">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -1464,7 +1464,7 @@ return false;]]></method>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">SC Data Source</property>
+            <property name="dataSource">Data Source2</property>
             <method name="open"><![CDATA[count = 0;
 len = 1;]]></method>
             <method name="fetch"><![CDATA[if(count < len){

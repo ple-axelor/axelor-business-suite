@@ -19,5 +19,5 @@ package com.axelor.apps.sale.report;
 
 public interface IReport {
 
-  public static final String SALES_ORDER = "SaleOrder2.rptdesign";
+  public static final String SALES_ORDER = "SaleOrder.rptdesign";
 }
