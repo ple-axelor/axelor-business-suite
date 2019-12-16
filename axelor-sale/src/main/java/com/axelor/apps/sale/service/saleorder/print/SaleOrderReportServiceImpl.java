@@ -236,13 +236,14 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     }
 
     MetaFile companyLogo = company.getLogo();
-    if (ObjectUtils.notEmpty(companyLogo)) {
-      dataMap.put("logoPath", companyLogo.getFilePath());
-    } else if (ObjectUtils.notEmpty(saleOrder.getTradingName())) {
+    if (ObjectUtils.notEmpty(saleOrder.getTradingName())) {
       MetaFile tradingLogo = saleOrder.getTradingName().getLogo();
       if (ObjectUtils.notEmpty(tradingLogo)) {
-        dataMap.put("logoPath", tradingLogo.getFilePath());
+        dataMap.put("logo_path", tradingLogo.getFilePath());
       }
+    }
+    else if (ObjectUtils.notEmpty(companyLogo)) {
+      dataMap.put("logo_path", companyLogo.getFilePath());
     }
 
     Partner clientPartner = saleOrder.getClientPartner();
@@ -281,7 +282,7 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
 
     dataMap.put("CurrencyCode", saleOrder.getCurrency().getCode());
 
-    PrintingSettings printingSettings = saleOrder.getPrintingSettings();
+    PrintingSettings printingSettings = ObjectUtils.notEmpty(saleOrder.getPrintingSettings()) ? saleOrder.getPrintingSettings() : company.getPrintingSettings();
     if (ObjectUtils.notEmpty(printingSettings)) {
       dataMap.put("header", printingSettings.getPdfHeader());
       dataMap.put("footer", printingSettings.getPdfFooter());

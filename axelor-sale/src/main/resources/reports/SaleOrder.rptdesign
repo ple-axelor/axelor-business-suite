@@ -761,7 +761,7 @@ return false;]]></method>
                 </structure>
                 <structure>
                     <property name="position">39</property>
-                    <property name="name">logoPath</property>
+                    <property name="name">logo_path</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -966,7 +966,7 @@ return false;]]></method>
                     <property name="columnName">displayProductPictureOnPrinting</property>
                 </structure>
                 <structure>
-                    <property name="columnName">logoPath</property>
+                    <property name="columnName">logo_path</property>
                 </structure>
                 <structure>
                     <property name="columnName">CustomerCode</property>
@@ -1214,7 +1214,7 @@ return false;]]></method>
                     </structure>
                     <structure>
                         <property name="position">39</property>
-                        <property name="name">logoPath</property>
+                        <property name="name">logo_path</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -1346,7 +1346,7 @@ count = 0;]]></method>
 	row["displayEstimDelivDateOnPrinting"] = saleOrderJSON[count].displayEstimDelivDateOnPrinting;
 	row["displayCustomerCodeOnPrinting"] = saleOrderJSON[count].displayCustomerCodeOnPrinting;
 	row["displayProductPictureOnPrinting"] = saleOrderJSON[count].displayProductPictureOnPrinting;
-	row["logoPath"] = saleOrderJSON[count].logoPath;
+	row["logo_path"] = saleOrderJSON[count].logo_path;
 	row["CustomerCode"] = saleOrderJSON[count].CustomerCode;
 	row["partner_type_select"] = saleOrderJSON[count].partner_type_select;
 	row["ClientPartName"] = saleOrderJSON[count].ClientPartName;
