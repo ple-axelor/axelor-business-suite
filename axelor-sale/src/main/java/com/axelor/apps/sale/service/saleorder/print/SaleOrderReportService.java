@@ -17,13 +17,16 @@
  */
 package com.axelor.apps.sale.service.saleorder.print;
 
+import java.util.List;
+import java.util.Map;
+
 public interface SaleOrderReportService {
 
-  public String getSaleOrderLineData(Long saleOrderId);
+  public List<Map<String, Object>> getSaleOrderLineData(Long saleOrderId);
 
-  public String getSaleOrderLineTaxData(Long saleOrderId);
+  public List<Map<String, Object>> getSaleOrderLineTaxData(Long saleOrderId);
 
-  public String getSaleOrderData(Long saleOrderId);
+  public List<Map<String, Object>> getSaleOrderData(Long saleOrderId);
 
-  public String getAppBase();
+  public int getAppBase();
 }

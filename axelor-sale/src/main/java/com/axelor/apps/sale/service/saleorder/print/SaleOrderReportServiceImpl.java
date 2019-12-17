@@ -34,13 +34,10 @@ import com.axelor.apps.sale.db.repo.SaleOrderLineRepository;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.auth.db.User;
 import com.axelor.common.ObjectUtils;
-import com.axelor.exception.service.TraceBackService;
 import com.axelor.inject.Beans;
 import com.axelor.meta.db.MetaFile;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +52,7 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
 
   // sale_order_type_select is in SupplyChain
   @Override
-  public String getSaleOrderLineData(Long saleOrderId) {
+  public List<Map<String, Object>> getSaleOrderLineData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
     Map<String, Object> dataMap = new HashMap<>();
     List<SaleOrderLine> saleOrderLineList = saleOrder.getSaleOrderLineList();
@@ -135,18 +132,13 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     }
     dataMap.put("CurrencyCode", saleOrder.getCurrency().getCode());
     dataMap.put("in_ati", saleOrder.getInAti());
-    String dataMapJSONString = null;
-    try {
-      dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));
-    } catch (JsonProcessingException e) {
-      TraceBackService.trace(e);
-    }
-    return dataMapJSONString;
+
+    return Lists.newArrayList(dataMap);
   }
 
   // sale_order_type_select is in SupplyChain
   @Override
-  public String getSaleOrderLineTaxData(Long saleOrderId) {
+  public List<Map<String, Object>> getSaleOrderLineTaxData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
     Map<String, Object> dataMap = new HashMap<>();
 
@@ -160,19 +152,13 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
         }
       }
     }
-    String dataMapJSONString = null;
-    try {
-      dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));
-    } catch (JsonProcessingException e) {
-      TraceBackService.trace(e);
-    }
-    return dataMapJSONString;
+    return Lists.newArrayList(dataMap);
   }
 
   // ShipmentDate,sale_order_type_select,isIspmRequired,paymentCondition,paymentMode is in
   // SupplyChain
   @Override
-  public String getSaleOrderData(Long saleOrderId) {
+  public List<Map<String, Object>> getSaleOrderData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
     Map<String, Object> dataMap = new HashMap<>();
 
@@ -241,8 +227,7 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
       if (ObjectUtils.notEmpty(tradingLogo)) {
         dataMap.put("logo_path", tradingLogo.getFilePath());
       }
-    }
-    else if (ObjectUtils.notEmpty(companyLogo)) {
+    } else if (ObjectUtils.notEmpty(companyLogo)) {
       dataMap.put("logo_path", companyLogo.getFilePath());
     }
 
@@ -282,7 +267,10 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
 
     dataMap.put("CurrencyCode", saleOrder.getCurrency().getCode());
 
-    PrintingSettings printingSettings = ObjectUtils.notEmpty(saleOrder.getPrintingSettings()) ? saleOrder.getPrintingSettings() : company.getPrintingSettings();
+    PrintingSettings printingSettings =
+        ObjectUtils.notEmpty(saleOrder.getPrintingSettings())
+            ? saleOrder.getPrintingSettings()
+            : company.getPrintingSettings();
     if (ObjectUtils.notEmpty(printingSettings)) {
       dataMap.put("header", printingSettings.getPdfHeader());
       dataMap.put("footer", printingSettings.getPdfFooter());
@@ -292,29 +280,11 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     if (ObjectUtils.notEmpty(saleOrder.getDuration())) {
       dataMap.put("durationName", saleOrder.getDuration().getName());
     }
-
-    String dataMapJSONString = null;
-    try {
-      dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));
-    } catch (JsonProcessingException e) {
-      TraceBackService.trace(e);
-    }
-    return dataMapJSONString;
+    return Lists.newArrayList(dataMap);
   }
 
   @Override
-  public String getAppBase() {
-    Map<String, Object> dataMap = new HashMap<>();
-    int nbDecimalDigitForUnitPrice =
-        Beans.get(AppBaseRepository.class).all().fetchOne().getNbDecimalDigitForUnitPrice();
-    dataMap.put("nbDecimalDigitForUnitPrice", nbDecimalDigitForUnitPrice);
-
-    String dataMapJSONString = null;
-    try {
-      dataMapJSONString = new ObjectMapper().writeValueAsString(Arrays.asList(dataMap));
-    } catch (JsonProcessingException e) {
-      TraceBackService.trace(e);
-    }
-    return dataMapJSONString;
+  public int getAppBase() {
+    return Beans.get(AppBaseRepository.class).all().fetchOne().getNbDecimalDigitForUnitPrice();
   }
 }

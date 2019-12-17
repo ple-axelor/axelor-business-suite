@@ -163,25 +163,13 @@ reportContext.getDesignHandle().findMasterPage("Simple MasterPage").setProperty(
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <script-data-source name="Data Source2" id="5374">
+        <script-data-source name="Data Source" id="5374">
             <method name="open"><![CDATA[importPackage(com.axelor.apps.sale.service.saleorder.print);
-
-var myDataSet = SaleOrderReportServiceImpl.getInstance();
-
-var saleOrderLineData = myDataSet.getSaleOrderLineData(params["SaleOrderId"]);
-var saleOrderLineTaxData = myDataSet.getSaleOrderLineTaxData(params["SaleOrderId"]);
-var saleOrderData = myDataSet.getSaleOrderData(params["SaleOrderId"]);
-var nbDecimalDigitForUnitPrice = myDataSet.getAppBase();
-
-saleOrderLineJSON = eval('('+ saleOrderLineData +')');
-saleOrderLineTaxJSON = eval('('+ saleOrderLineTaxData +')');
-saleOrderJSON = eval('('+ saleOrderData +')');
-nbDecimalDigitForUnitPriceJSON= eval('('+ nbDecimalDigitForUnitPrice +')');
-]]></method>
+packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportServiceImpl().getInstance();]]></method>
         </script-data-source>
     </data-sources>
     <data-sets>
-        <script-data-set name="OrderLineDS2" id="5376">
+        <script-data-set name="OrderLineDS" id="5376">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -303,6 +291,11 @@ nbDecimalDigitForUnitPriceJSON= eval('('+ nbDecimalDigitForUnitPrice +')');
                     <property name="name">in_ati</property>
                     <property name="dataType">integer</property>
                 </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">sale_order_type_select</property>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
             <list-property name="columnHints">
                 <structure>
@@ -376,6 +369,9 @@ nbDecimalDigitForUnitPriceJSON= eval('('+ nbDecimalDigitForUnitPrice +')');
                 </structure>
                 <structure>
                     <property name="columnName">in_ati</property>
+                </structure>
+                <structure>
+                    <property name="columnName">sale_order_type_select</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -500,42 +496,47 @@ nbDecimalDigitForUnitPriceJSON= eval('('+ nbDecimalDigitForUnitPrice +')');
                         <property name="name">in_ati</property>
                         <property name="dataType">integer</property>
                     </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">sale_order_type_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">Data Source2</property>
-            <method name="open"><![CDATA[len = saleOrderLineJSON.length;
-count = 0;]]></method>
-            <method name="fetch"><![CDATA[if(count < len){
-	row["id"] = saleOrderLineJSON[count].id;
-	row["description"] = saleOrderLineJSON[count].description;
-	row["quantity"] = saleOrderLineJSON[count].quantity;
-	row["ProductName"] = saleOrderLineJSON[count].ProductName;
-	row["ex_tax_total"] = saleOrderLineJSON[count].ex_tax_total;
-	row["in_taxTotal"] = saleOrderLineJSON[count].in_taxTotal;
-	row["sequence"] = saleOrderLineJSON[count].sequence;
-	row["EstimatedDeliveryDate"] = saleOrderLineJSON[count].EstimatedDeliveryDate;
-	row["price_discounted"] = saleOrderLineJSON[count].price_discounted;
-	row["showTotal"] = saleOrderLineJSON[count].showTotal;
-	row["hideUnitAmounts"] = saleOrderLineJSON[count].hideUnitAmounts;
-	row["UnitCode"] = saleOrderLineJSON[count].UnitCode;
-	row["unit_price"] = saleOrderLineJSON[count].unit_price;
-	row["tax_line"] = saleOrderLineJSON[count].tax_line;
-	row["productCode"] = saleOrderLineJSON[count].productCode;
-	row["product_type_select"] = saleOrderLineJSON[count].product_type_select;
-	row["productPicture"] = saleOrderLineJSON[count].productPicture;
-	row["CustomerProductCode"] = saleOrderLineJSON[count].CustomerProductCode;
-	row["CustomerProductName"] = saleOrderLineJSON[count].CustomerProductName;
-	row["totalDiscountAmount"] = saleOrderLineJSON[count].totalDiscountAmount;
-	row["is_title_line"] = saleOrderLineJSON[count].is_title_line;
-	row["PackHideUnitAmounts"] = saleOrderLineJSON[count].PackHideUnitAmounts;
-	row["CurrencyCode"] = saleOrderLineJSON[count].CurrencyCode;
-	row["in_ati"] = saleOrderLineJSON[count].in_ati;
-	count++;
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[saleOrderLineList = packageClass.getSaleOrderLineData(params["SaleOrderId"]).iterator();]]></method>
+            <method name="fetch"><![CDATA[if(saleOrderLineList.hasNext()){
+node = saleOrderLineList.next();
+	row["id"] = node.get("id");
+	row["description"] = node.get("description");
+	row["quantity"] = node.get("quantity");
+	row["ProductName"] = node.get("ProductName");
+	row["ex_tax_total"] = node.get("ex_tax_total");
+	row["in_taxTotal"] = node.get("in_taxTotal");
+	row["sequence"] = node.get("sequence");
+	row["EstimatedDeliveryDate"] = node.get("EstimatedDeliveryDate");
+	row["price_discounted"] = node.get("price_discounted");
+	row["showTotal"] = node.get("showTotal");
+	row["hideUnitAmounts"] = node.get("hideUnitAmounts");
+	row["UnitCode"] = node.get("UnitCode");
+	row["unit_price"] = node.get("unit_price");
+	row["tax_line"] = node.get("tax_line");
+	row["productCode"] = node.get("productCode");
+	row["product_type_select"] = node.get("product_type_select");
+	row["productPicture"] = node.get("productPicture");
+	row["CustomerProductCode"] = node.get("CustomerProductCode");
+	row["CustomerProductName"] = node.get("CustomerProductName");
+	row["totalDiscountAmount"] = node.get("totalDiscountAmount");
+	row["is_title_line"] = node.get("is_title_line");
+	row["PackHideUnitAmounts"] = node.get("PackHideUnitAmounts");
+	row["CurrencyCode"] = node.get("CurrencyCode");
+	row["in_ati"] = node.get("in_ati");
+	row["sale_order_type_select"] = node.get("sale_order_type_select");
 	return true;
 }
 return false;]]></method>
         </script-data-set>
-        <script-data-set name="SaleOrderLineTaxDS2" id="5377">
+        <script-data-set name="SaleOrderLineTaxDS" id="5377">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -552,6 +553,11 @@ return false;]]></method>
                     <property name="name">value</property>
                     <property name="dataType">decimal</property>
                 </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">sale_order_type_select</property>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
             <list-property name="columnHints">
                 <structure>
@@ -562,6 +568,9 @@ return false;]]></method>
                 </structure>
                 <structure>
                     <property name="columnName">value</property>
+                </structure>
+                <structure>
+                    <property name="columnName">sale_order_type_select</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -581,21 +590,26 @@ return false;]]></method>
                         <property name="name">value</property>
                         <property name="dataType">decimal</property>
                     </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">sale_order_type_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">Data Source2</property>
-            <method name="open"><![CDATA[len = saleOrderLineTaxJSON.length;
-count = 0;]]></method>
-            <method name="fetch"><![CDATA[if(count < len){
-	row["ex_tax_base"] = saleOrderLineTaxJSON[count].ex_tax_base;
-	row["tax_total"] = saleOrderLineTaxJSON[count].tax_total;
-	row["value"] = saleOrderLineTaxJSON[count].value;
-	count++;
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[saleOrderLineTaxList = packageClass.getSaleOrderLineTaxData(params["SaleOrderId"]).iterator();]]></method>
+            <method name="fetch"><![CDATA[if(saleOrderLineTaxList.hasNext()){
+node = saleOrderLineTaxList.next();
+	row["ex_tax_base"] = node.get("ex_tax_base");
+	row["tax_total"] = node.get("tax_total");
+	row["value"] = node.get("value");
+	row["sale_order_type_select"] = node.get("sale_order_type_select");
 	return true;
 }
 return false;]]></method>
         </script-data-set>
-        <script-data-set name="SaleOrderDS2" id="5378">
+        <script-data-set name="SaleOrderDS" id="5378">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -877,6 +891,31 @@ return false;]]></method>
                     <property name="name">CurrencyCode</property>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="position">57</property>
+                    <property name="name">ShipmentDate</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">58</property>
+                    <property name="name">sale_order_type_select</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">59</property>
+                    <property name="name">is_ispm_required</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">60</property>
+                    <property name="name">PaymentCondName</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">61</property>
+                    <property name="name">PaymentMode</property>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
             <list-property name="columnHints">
                 <structure>
@@ -1046,6 +1085,21 @@ return false;]]></method>
                 </structure>
                 <structure>
                     <property name="columnName">CurrencyCode</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ShipmentDate</property>
+                </structure>
+                <structure>
+                    <property name="columnName">sale_order_type_select</property>
+                </structure>
+                <structure>
+                    <property name="columnName">is_ispm_required</property>
+                </structure>
+                <structure>
+                    <property name="columnName">PaymentCondName</property>
+                </structure>
+                <structure>
+                    <property name="columnName">PaymentMode</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -1330,74 +1384,104 @@ return false;]]></method>
                         <property name="name">CurrencyCode</property>
                         <property name="dataType">string</property>
                     </structure>
+                    <structure>
+                        <property name="position">57</property>
+                        <property name="name">ShipmentDate</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">58</property>
+                        <property name="name">sale_order_type_select</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">59</property>
+                        <property name="name">is_ispm_required</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">60</property>
+                        <property name="name">PaymentCondName</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">61</property>
+                        <property name="name">PaymentMode</property>
+                        <property name="dataType">string</property>
+                    </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">Data Source2</property>
-            <method name="open"><![CDATA[len = saleOrderJSON.length;
-count = 0;]]></method>
-            <method name="fetch"><![CDATA[if(count < len){
-	row["id"] = saleOrderJSON[count].id;
-	row["saleOrderSeq"] = saleOrderJSON[count].saleOrderSeq;
-	row["CreationDate"] = saleOrderJSON[count].CreationDate;
-	row["invoicingAddress"] = saleOrderJSON[count].invoicingAddress;
-	row["deliveryAddress"] = saleOrderJSON[count].deliveryAddress;
-	row["ex_tax_total"] = saleOrderJSON[count].ex_tax_total;
-	row["tax_total"] = saleOrderJSON[count].tax_total;
-	row["in_tax_total"] = saleOrderJSON[count].in_tax_total;
-	row["external_reference"] = saleOrderJSON[count].external_reference;
-	row["description"] = saleOrderJSON[count].description;
-	row["deliveryDate"] = saleOrderJSON[count].deliveryDate;
-	row["deliveryCondition"] = saleOrderJSON[count].deliveryCondition;
-	row["hideDiscount"] = saleOrderJSON[count].hideDiscount;
-	row["status_select"] = saleOrderJSON[count].status_select;
-	row["specific_notes"] = saleOrderJSON[count].specific_notes;
-	row["versionNumber"] = saleOrderJSON[count].versionNumber;
-	row["periodicity_type_select"] = saleOrderJSON[count].periodicity_type_select;
-	row["number_of_periods"] = saleOrderJSON[count].number_of_periods;
-	row["subscription_text"] = saleOrderJSON[count].subscription_text;
-	row["end_of_validity_date"] = saleOrderJSON[count].end_of_validity_date;
-	row["in_ati"] = saleOrderJSON[count].in_ati;
-	row["proforma_comments"] = saleOrderJSON[count].proforma_comments;
-	row["salesperson_signature_path"] = saleOrderJSON[count].salesperson_signature_path;
-	row["SalemanName"] = saleOrderJSON[count].SalemanName;
-	row["SalemanPhone"] = saleOrderJSON[count].SalemanPhone;
-	row["SalemanEmail"] = saleOrderJSON[count].SalemanEmail;
-	row["CompanyName"] = saleOrderJSON[count].CompanyName;
-	row["logo_height"] = saleOrderJSON[count].logo_height;
-	row["logo_width"] = saleOrderJSON[count].logo_width;
-	row["DisplaySaleman"] = saleOrderJSON[count].DisplaySaleman;
-	row["ClientBox"] = saleOrderJSON[count].ClientBox;
-	row["LegalNote"] = saleOrderJSON[count].LegalNote;
-	row["DisplayDeliveryCondition"] = saleOrderJSON[count].DisplayDeliveryCondition;
-	row["displayProductCodeOnPrinting"] = saleOrderJSON[count].displayProductCodeOnPrinting;
-	row["displayTaxDetailOnPrinting"] = saleOrderJSON[count].displayTaxDetailOnPrinting;
-	row["displayEstimDelivDateOnPrinting"] = saleOrderJSON[count].displayEstimDelivDateOnPrinting;
-	row["displayCustomerCodeOnPrinting"] = saleOrderJSON[count].displayCustomerCodeOnPrinting;
-	row["displayProductPictureOnPrinting"] = saleOrderJSON[count].displayProductPictureOnPrinting;
-	row["logo_path"] = saleOrderJSON[count].logo_path;
-	row["CustomerCode"] = saleOrderJSON[count].CustomerCode;
-	row["partner_type_select"] = saleOrderJSON[count].partner_type_select;
-	row["ClientPartName"] = saleOrderJSON[count].ClientPartName;
-	row["ClientPartFirstName"] = saleOrderJSON[count].ClientPartFirstName;
-	row["ClientTitle"] = saleOrderJSON[count].ClientTitle;
-	row["ContactName"] = saleOrderJSON[count].ContactName;
-	row["ContactFirstName"] = saleOrderJSON[count].ContactFirstName;
-	row["invoicecountry"] = saleOrderJSON[count].invoicecountry;
-	row["DeliveryCountry"] = saleOrderJSON[count].DeliveryCountry;
-	row["iban"] = saleOrderJSON[count].iban;
-	row["bank_address"] = saleOrderJSON[count].bank_address;
-	row["bic"] = saleOrderJSON[count].bic;
-	row["CurrencyCode"] = saleOrderJSON[count].CurrencyCode;
-	row["header"] = saleOrderJSON[count].header;
-	row["footer"] = saleOrderJSON[count].footer;
-	row["logoPosition"] = saleOrderJSON[count].logoPosition;
-	row["durationName"] = saleOrderJSON[count].durationName;
-	count++;
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[saleOrderList = packageClass.getSaleOrderData(params["SaleOrderId"]).iterator();]]></method>
+            <method name="fetch"><![CDATA[if(saleOrderList.hasNext()){
+node = saleOrderList.next();
+	row["id"] = node.get("id");
+	row["saleOrderSeq"] = node.get("saleOrderSeq");
+	row["CreationDate"] = node.get("CreationDate");
+	row["invoicingAddress"] = node.get("invoicingAddress");
+	row["deliveryAddress"] = node.get("deliveryAddress");
+	row["ex_tax_total"] = node.get("ex_tax_total");
+	row["tax_total"] = node.get("tax_total");
+	row["in_tax_total"] = node.get("in_tax_total");
+	row["external_reference"] = node.get("external_reference");
+	row["description"] = node.get("description");
+	row["deliveryDate"] = node.get("deliveryDate");
+	row["deliveryCondition"] = node.get("deliveryCondition");
+	row["ex_tax_base"] = node.get("ex_tax_base");
+	row["hideDiscount"] = node.get("hideDiscount");
+	row["status_select"] = node.get("status_select");
+	row["specific_notes"] = node.get("specific_notes");
+	row["versionNumber"] = node.get("versionNumber");
+	row["periodicity_type_select"] = node.get("periodicity_type_select");
+	row["number_of_periods"] = node.get("number_of_periods");
+	row["subscription_text"] = node.get("subscription_text");
+	row["end_of_validity_date"] = node.get("end_of_validity_date");
+	row["ex_tax_base"] = node.get("ex_tax_base");
+	row["in_ati"] = node.get("in_ati");
+	row["proforma_comments"] = node.get("proforma_comments");
+	row["salesperson_signature_path"] = node.get("salesperson_signature_path");
+	row["SalemanName"] = node.get("SalemanName");
+	row["SalemanPhone"] = node.get("SalemanPhone");
+	row["SalemanEmail"] = node.get("SalemanEmail");
+	row["CompanyName"] = node.get("CompanyName");
+	row["logo_height"] = node.get("logo_height");
+	row["logo_width"] = node.get("logo_width");
+	row["DisplaySaleman"] = node.get("DisplaySaleman");
+	row["ClientBox"] = node.get("ClientBox");
+	row["LegalNote"] = node.get("LegalNote");
+	row["DisplayDeliveryCondition"] = node.get("DisplayDeliveryCondition");
+	row["displayProductCodeOnPrinting"] = node.get("displayProductCodeOnPrinting");
+	row["displayTaxDetailOnPrinting"] = node.get("displayTaxDetailOnPrinting");
+	row["displayEstimDelivDateOnPrinting"] = node.get("displayEstimDelivDateOnPrinting");
+	row["displayCustomerCodeOnPrinting"] = node.get("displayCustomerCodeOnPrinting");
+	row["displayProductPictureOnPrinting"] = node.get("displayProductPictureOnPrinting");
+	row["logo_path"] = node.get("logo_path");
+	row["CustomerCode"] = node.get("CustomerCode");
+	row["partner_type_select"] = node.get("partner_type_select");
+	row["ClientPartName"] = node.get("ClientPartName");
+	row["ClientPartFirstName"] = node.get("ClientPartFirstName");
+	row["ClientTitle"] = node.get("ClientTitle");
+	row["ContactName"] = node.get("ContactName");
+	row["ContactFirstName"] = node.get("ContactFirstName");
+	row["invoicecountry"] = node.get("invoicecountry");
+	row["DeliveryCountry"] = node.get("DeliveryCountry");
+	row["iban"] = node.get("iban");
+	row["bank_address"] = node.get("bank_address");
+	row["bic"] = node.get("bic");
+	row["CurrencyCode"] = node.get("CurrencyCode");
+	row["header"] = node.get("header");
+	row["footer"] = node.get("footer");
+	row["logoPosition"] = node.get("logoPosition");
+	row["ShipmentDate"] = node.get("ShipmentDate");
+	row["sale_order_type_select"] = node.get("sale_order_type_select");
+	row["is_ispm_required"] = node.get("is_ispm_required");
+	row["PaymentCondName"] = node.get("PaymentCondName");
+	row["PaymentMode"] = node.get("PaymentMode");
 	return true;
 }
 return false;]]></method>
         </script-data-set>
-        <script-data-set name="AppBaseDS2" id="5379">
+        <script-data-set name="AppBaseDS" id="5379">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -1419,17 +1503,16 @@ return false;]]></method>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">Data Source2</property>
-            <method name="open"><![CDATA[len = nbDecimalDigitForUnitPriceJSON.length;
-count = 0;]]></method>
-            <method name="fetch"><![CDATA[if(count < len){
-row["nbDecimalDigitForUnitPrice"] = nbDecimalDigitForUnitPriceJSON[0].nbDecimalDigitForUnitPrice;
-	count++;
-	return true;
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[count = 1;]]></method>
+            <method name="fetch"><![CDATA[if(count == 1){
+  row["nbDecimalDigitForUnitPrice"] = packageClass.getAppBase();
+  count++;
+  return true;
 }
 return false;]]></method>
         </script-data-set>
-        <script-data-set name="TranslateDS2" id="5380">
+        <script-data-set name="TranslateDS" id="5380">
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
@@ -1464,7 +1547,7 @@ return false;]]></method>
                     </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">Data Source2</property>
+            <property name="dataSource">Data Source</property>
             <method name="open"><![CDATA[count = 0;
 len = 1;]]></method>
             <method name="fetch"><![CDATA[if(count < len){
