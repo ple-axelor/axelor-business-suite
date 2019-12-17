@@ -32,6 +32,7 @@ import com.axelor.apps.sale.db.SaleOrderLine;
 import com.axelor.apps.sale.db.SaleOrderLineTax;
 import com.axelor.apps.sale.db.repo.SaleOrderLineRepository;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
+import com.axelor.apps.tool.date.DateTool;
 import com.axelor.auth.db.User;
 import com.axelor.common.ObjectUtils;
 import com.axelor.inject.Beans;
@@ -50,7 +51,6 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     return Beans.get(SaleOrderReportService.class);
   }
 
-  // sale_order_type_select is in SupplyChain
   @Override
   public List<Map<String, Object>> getSaleOrderLineData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
@@ -65,10 +65,14 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
         dataMap.put("ex_tax_total", saleOrderLine.getExTaxTotal());
         dataMap.put("in_taxTotal", saleOrderLine.getInTaxTotal());
         dataMap.put("sequence", saleOrderLine.getSequence());
-        dataMap.put("EstimatedDeliveryDate", saleOrderLine.getEstimatedDelivDate());
         dataMap.put("price_discounted", saleOrderLine.getPriceDiscounted());
         dataMap.put("showTotal", saleOrderLine.getIsShowTotal());
         dataMap.put("hideUnitAmounts", saleOrderLine.getIsHideUnitAmounts());
+
+        if (ObjectUtils.notEmpty(saleOrderLine.getEstimatedDelivDate())) {
+          dataMap.put(
+              "EstimatedDeliveryDate", DateTool.toDate(saleOrderLine.getEstimatedDelivDate()));
+        }
 
         Product product = saleOrderLine.getProduct();
         if (ObjectUtils.notEmpty(product)) {
@@ -136,7 +140,6 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     return Lists.newArrayList(dataMap);
   }
 
-  // sale_order_type_select is in SupplyChain
   @Override
   public List<Map<String, Object>> getSaleOrderLineTaxData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
@@ -155,8 +158,6 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     return Lists.newArrayList(dataMap);
   }
 
-  // ShipmentDate,sale_order_type_select,isIspmRequired,paymentCondition,paymentMode is in
-  // SupplyChain
   @Override
   public List<Map<String, Object>> getSaleOrderData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
@@ -164,7 +165,6 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
 
     dataMap.put("id", saleOrderId);
     dataMap.put("saleOrderSeq", saleOrder.getSaleOrderSeq());
-    dataMap.put("CreationDate", saleOrder.getCreationDate());
     dataMap.put("invoicingAddress", saleOrder.getMainInvoicingAddressStr());
     dataMap.put("deliveryAddress", saleOrder.getDeliveryAddressStr());
     dataMap.put("ex_tax_total", saleOrder.getExTaxTotal());
@@ -172,7 +172,6 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     dataMap.put("in_tax_total", saleOrder.getInTaxTotal());
     dataMap.put("external_reference", saleOrder.getExternalReference());
     dataMap.put("description", saleOrder.getDescription());
-    dataMap.put("deliveryDate", saleOrder.getDeliveryDate());
     dataMap.put("deliveryCondition", saleOrder.getDeliveryCondition());
     dataMap.put("hideDiscount", saleOrder.getHideDiscount());
     dataMap.put("status_select", saleOrder.getStatusSelect());
@@ -181,9 +180,18 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     dataMap.put("periodicity_type_select", saleOrder.getPeriodicityTypeSelect());
     dataMap.put("number_of_periods", saleOrder.getNumberOfPeriods());
     dataMap.put("subscription_text", saleOrder.getSubscriptionText());
-    dataMap.put("end_of_validity_date", saleOrder.getEndOfValidityDate());
     dataMap.put("in_ati", saleOrder.getInAti());
     dataMap.put("proforma_comments", saleOrder.getProformaComments());
+
+    if (ObjectUtils.notEmpty(saleOrder.getCreationDate())) {
+      dataMap.put("CreationDate", DateTool.toDate(saleOrder.getCreationDate()));
+    }
+    if (ObjectUtils.notEmpty(saleOrder.getDeliveryDate())) {
+      dataMap.put("deliveryDate", DateTool.toDate(saleOrder.getDeliveryDate()));
+    }
+    if (ObjectUtils.notEmpty(saleOrder.getEndOfValidityDate())) {
+      dataMap.put("end_of_validity_date", DateTool.toDate(saleOrder.getEndOfValidityDate()));
+    }
 
     User salespersonUser = saleOrder.getSalespersonUser();
     if (ObjectUtils.notEmpty(salespersonUser)) {

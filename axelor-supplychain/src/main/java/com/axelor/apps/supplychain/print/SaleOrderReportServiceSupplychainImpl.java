@@ -20,6 +20,7 @@ package com.axelor.apps.supplychain.print;
 import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.apps.sale.service.saleorder.print.SaleOrderReportServiceImpl;
+import com.axelor.apps.tool.date.DateTool;
 import com.axelor.common.ObjectUtils;
 import com.axelor.inject.Beans;
 import java.util.HashMap;
@@ -53,9 +54,12 @@ public class SaleOrderReportServiceSupplychainImpl extends SaleOrderReportServic
     List<Map<String, Object>> dataMapList = super.getSaleOrderData(saleOrderId);
     Map<String, Object> dataMap = new HashMap<>();
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
-    dataMap.put("ShipmentDate", saleOrder.getShipmentDate());
     dataMap.put("sale_order_type_select", saleOrder.getSaleOrderTypeSelect());
     dataMap.put("is_ispm_required", saleOrder.getIsIspmRequired());
+
+    if (ObjectUtils.notEmpty(saleOrder.getShipmentDate())) {
+      dataMap.put("ShipmentDate", DateTool.toDate(saleOrder.getShipmentDate()));
+    }
 
     if (ObjectUtils.notEmpty(saleOrder.getPaymentCondition())) {
       dataMap.put("PaymentCondName", saleOrder.getPaymentCondition().getName());
