@@ -39,6 +39,7 @@ import com.axelor.inject.Beans;
 import com.axelor.meta.db.MetaFile;
 import com.google.common.collect.Lists;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,32 +55,34 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
   @Override
   public List<Map<String, Object>> getSaleOrderLineData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
-    Map<String, Object> dataMap = new HashMap<>();
+    List<Map<String, Object>> dataMapList = new ArrayList<>();
+    Map<String, Object> saleOrderDataMap = new HashMap<>();
     List<SaleOrderLine> saleOrderLineList = saleOrder.getSaleOrderLineList();
     if (CollectionUtils.isNotEmpty(saleOrderLineList)) {
       for (SaleOrderLine saleOrderLine : saleOrderLineList) {
-        dataMap.put("id", saleOrderLine.getId());
-        dataMap.put("description", saleOrderLine.getDescription());
-        dataMap.put("quantity", saleOrderLine.getQty());
-        dataMap.put("ProductName", saleOrderLine.getProductName());
-        dataMap.put("ex_tax_total", saleOrderLine.getExTaxTotal());
-        dataMap.put("in_taxTotal", saleOrderLine.getInTaxTotal());
-        dataMap.put("sequence", saleOrderLine.getSequence());
-        dataMap.put("price_discounted", saleOrderLine.getPriceDiscounted());
-        dataMap.put("showTotal", saleOrderLine.getIsShowTotal());
-        dataMap.put("hideUnitAmounts", saleOrderLine.getIsHideUnitAmounts());
+        Map<String, Object> saleOrderLineDataMap = new HashMap<>();
+        saleOrderLineDataMap.put("id", saleOrderLine.getId());
+        saleOrderLineDataMap.put("description", saleOrderLine.getDescription());
+        saleOrderLineDataMap.put("quantity", saleOrderLine.getQty());
+        saleOrderLineDataMap.put("ProductName", saleOrderLine.getProductName());
+        saleOrderLineDataMap.put("ex_tax_total", saleOrderLine.getExTaxTotal());
+        saleOrderLineDataMap.put("in_taxTotal", saleOrderLine.getInTaxTotal());
+        saleOrderLineDataMap.put("sequence", saleOrderLine.getSequence());
+        saleOrderLineDataMap.put("price_discounted", saleOrderLine.getPriceDiscounted());
+        saleOrderLineDataMap.put("showTotal", saleOrderLine.getIsShowTotal());
+        saleOrderLineDataMap.put("hideUnitAmounts", saleOrderLine.getIsHideUnitAmounts());
 
         if (ObjectUtils.notEmpty(saleOrderLine.getEstimatedDelivDate())) {
-          dataMap.put(
+          saleOrderLineDataMap.put(
               "EstimatedDeliveryDate", DateTool.toDate(saleOrderLine.getEstimatedDelivDate()));
         }
 
         Product product = saleOrderLine.getProduct();
         if (ObjectUtils.notEmpty(product)) {
-          dataMap.put("productCode", product.getCode());
-          dataMap.put("product_type_select", product.getProductTypeSelect());
+          saleOrderLineDataMap.put("productCode", product.getCode());
+          saleOrderLineDataMap.put("product_type_select", product.getProductTypeSelect());
           if (ObjectUtils.notEmpty(product.getPicture())) {
-            dataMap.put("productPicture", product.getPicture().getFilePath());
+            saleOrderLineDataMap.put("productPicture", product.getPicture().getFilePath());
           }
           if (CollectionUtils.isNotEmpty(product.getCustomerCatalogList())) {
             List<CustomerCatalog> customerCatalogList =
@@ -94,32 +97,34 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
                     .collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(customerCatalogList)) {
               for (CustomerCatalog customerCatalog : customerCatalogList) {
-                dataMap.put("CustomerProductCode", customerCatalog.getProductCustomerCode());
-                dataMap.put("CustomerProductName", customerCatalog.getProductCustomerName());
+                Map<String, Object> customerCatalogMap = new HashMap<>();
+                customerCatalogMap.put("CustomerProductCode", customerCatalog.getProductCustomerCode());
+                customerCatalogMap.put("CustomerProductName", customerCatalog.getProductCustomerName());
+                dataMapList.add(customerCatalogMap);
               }
             }
           }
         }
 
         if (ObjectUtils.notEmpty(saleOrderLine.getUnit())) {
-          dataMap.put("UnitCode", saleOrderLine.getUnit().getLabelToPrinting());
+          saleOrderLineDataMap.put("UnitCode", saleOrderLine.getUnit().getLabelToPrinting());
         }
 
         if (ObjectUtils.notEmpty(saleOrderLine.getTaxLine())) {
-          dataMap.put("tax_line", saleOrderLine.getTaxLine().getValue());
+          saleOrderLineDataMap.put("tax_line", saleOrderLine.getTaxLine().getValue());
         }
 
         BigDecimal unitPrice =
             saleOrder.getInAti() ? saleOrderLine.getInTaxPrice() : saleOrderLine.getPrice();
-        dataMap.put("unit_price", unitPrice);
+            saleOrderLineDataMap.put("unit_price", unitPrice);
 
         BigDecimal totalDiscountAmount =
             saleOrderLine.getPriceDiscounted().subtract(unitPrice).multiply(saleOrderLine.getQty());
-        dataMap.put("totalDiscountAmount", totalDiscountAmount);
+        saleOrderLineDataMap.put("totalDiscountAmount", totalDiscountAmount);
 
         Boolean isTitleLine =
             saleOrderLine.getTypeSelect().equals(SaleOrderLineRepository.TYPE_TITLE);
-        dataMap.put("is_title_line", isTitleLine);
+        saleOrderLineDataMap.put("is_title_line", isTitleLine);
         SaleOrderLine packHideUnitAmountsLine =
             Beans.get(SaleOrderLineRepository.class)
                 .all()
@@ -130,14 +135,16 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
                     saleOrderLine.getSequence())
                 .fetchOne();
         if (ObjectUtils.notEmpty(packHideUnitAmountsLine)) {
-          dataMap.put("PackHideUnitAmounts", packHideUnitAmountsLine.getIsHideUnitAmounts());
+          saleOrderLineDataMap.put("PackHideUnitAmounts", packHideUnitAmountsLine.getIsHideUnitAmounts());
         }
+        dataMapList.add(saleOrderLineDataMap);
       }
     }
-    dataMap.put("CurrencyCode", saleOrder.getCurrency().getCode());
-    dataMap.put("in_ati", saleOrder.getInAti());
+    saleOrderDataMap.put("CurrencyCode", saleOrder.getCurrency().getCode());
+    saleOrderDataMap.put("in_ati", saleOrder.getInAti());
+    dataMapList.add(saleOrderDataMap);
 
-    return Lists.newArrayList(dataMap);
+    return dataMapList;
   }
 
   @Override
