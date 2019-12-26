@@ -17,6 +17,14 @@
  */
 package com.axelor.apps.sale.service.saleorder.print;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.apache.commons.collections.CollectionUtils;
 import com.axelor.apps.base.db.BankAddress;
 import com.axelor.apps.base.db.BankDetails;
 import com.axelor.apps.base.db.Company;
@@ -35,16 +43,11 @@ import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.apps.tool.date.DateTool;
 import com.axelor.auth.db.User;
 import com.axelor.common.ObjectUtils;
+import com.axelor.db.mapper.Mapper;
+import com.axelor.db.mapper.Property;
 import com.axelor.inject.Beans;
 import com.axelor.meta.db.MetaFile;
 import com.google.common.collect.Lists;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import org.apache.commons.collections.CollectionUtils;
 
 public class SaleOrderReportServiceImpl implements SaleOrderReportService {
 
@@ -301,5 +304,20 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
   @Override
   public int getAppBase() {
     return Beans.get(AppBaseRepository.class).all().fetchOne().getNbDecimalDigitForUnitPrice();
+  }
+  
+  public static Map<String,Object> getMap(Object model,String ...fields){
+    if (model == null) {
+      return null;
+    }
+    final Map<String, Object> map = new HashMap<>();
+    final Mapper mapper = Mapper.of(model.getClass());
+    List<String> fieldsList = Arrays.asList(fields);
+    for (Property p : mapper.getProperties()) {
+      if(fieldsList.contains(p.getName()) && ObjectUtils.notEmpty(p.get(model))) {
+         map.put(p.getName(), p.get(model));
+      }
+    }
+    return map;
   }
 }
