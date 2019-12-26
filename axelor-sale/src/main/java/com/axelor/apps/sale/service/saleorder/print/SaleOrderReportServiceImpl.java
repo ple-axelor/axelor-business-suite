@@ -17,14 +17,6 @@
  */
 package com.axelor.apps.sale.service.saleorder.print;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import org.apache.commons.collections.CollectionUtils;
 import com.axelor.apps.base.db.BankAddress;
 import com.axelor.apps.base.db.BankDetails;
 import com.axelor.apps.base.db.Company;
@@ -48,6 +40,14 @@ import com.axelor.db.mapper.Property;
 import com.axelor.inject.Beans;
 import com.axelor.meta.db.MetaFile;
 import com.google.common.collect.Lists;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.apache.commons.collections.CollectionUtils;
 
 public class SaleOrderReportServiceImpl implements SaleOrderReportService {
 
@@ -58,32 +58,57 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
   @Override
   public List<Map<String, Object>> getSaleOrderLineData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
+
     List<Map<String, Object>> dataMapList = new ArrayList<>();
-    Map<String, Object> saleOrderDataMap = new HashMap<>();
+    Map<String, Object> saleOrderDataMap = setOrderLineSaleOrderDataMap(saleOrder);
+    saleOrderDataMap.put("currencyCode", saleOrder.getCurrency().getCode());
+
     List<SaleOrderLine> saleOrderLineList = saleOrder.getSaleOrderLineList();
     if (CollectionUtils.isNotEmpty(saleOrderLineList)) {
       for (SaleOrderLine saleOrderLine : saleOrderLineList) {
-        Map<String, Object> saleOrderLineDataMap = new HashMap<>();
-        saleOrderLineDataMap.put("id", saleOrderLine.getId());
-        saleOrderLineDataMap.put("description", saleOrderLine.getDescription());
-        saleOrderLineDataMap.put("quantity", saleOrderLine.getQty());
-        saleOrderLineDataMap.put("ProductName", saleOrderLine.getProductName());
-        saleOrderLineDataMap.put("ex_tax_total", saleOrderLine.getExTaxTotal());
-        saleOrderLineDataMap.put("in_taxTotal", saleOrderLine.getInTaxTotal());
-        saleOrderLineDataMap.put("sequence", saleOrderLine.getSequence());
-        saleOrderLineDataMap.put("price_discounted", saleOrderLine.getPriceDiscounted());
-        saleOrderLineDataMap.put("showTotal", saleOrderLine.getIsShowTotal());
-        saleOrderLineDataMap.put("hideUnitAmounts", saleOrderLine.getIsHideUnitAmounts());
+        Map<String, Object> saleOrderLineDataMap = setOrderLineSaleOrderLineDataMap(saleOrderLine);
 
         if (ObjectUtils.notEmpty(saleOrderLine.getEstimatedDelivDate())) {
           saleOrderLineDataMap.put(
-              "EstimatedDeliveryDate", DateTool.toDate(saleOrderLine.getEstimatedDelivDate()));
+              "estimatedDeliveryDate", DateTool.toDate(saleOrderLine.getEstimatedDelivDate()));
+        }
+
+        if (ObjectUtils.notEmpty(saleOrderLine.getUnit())) {
+          saleOrderLineDataMap.put("unitCode", saleOrderLine.getUnit().getLabelToPrinting());
+        }
+
+        if (ObjectUtils.notEmpty(saleOrderLine.getTaxLine())) {
+          saleOrderLineDataMap.put("taxLine", saleOrderLine.getTaxLine().getValue());
+        }
+
+        BigDecimal unitPrice =
+            saleOrder.getInAti() ? saleOrderLine.getInTaxPrice() : saleOrderLine.getPrice();
+        saleOrderLineDataMap.put("unitPrice", unitPrice);
+
+        BigDecimal totalDiscountAmount =
+            saleOrderLine.getPriceDiscounted().subtract(unitPrice).multiply(saleOrderLine.getQty());
+        saleOrderLineDataMap.put("totalDiscountAmount", totalDiscountAmount);
+
+        Boolean isTitleLine =
+            saleOrderLine.getTypeSelect().equals(SaleOrderLineRepository.TYPE_TITLE);
+        saleOrderLineDataMap.put("isTitleLine", isTitleLine);
+        SaleOrderLine packHideUnitAmountsLine =
+            Beans.get(SaleOrderLineRepository.class)
+                .all()
+                .filter(
+                    "self.saleOrder = ?1 AND self.typeSelect = ?2 AND self.sequence > ?3 ORDER BY self.sequence",
+                    saleOrder,
+                    SaleOrderLineRepository.TYPE_TITLE,
+                    saleOrderLine.getSequence())
+                .fetchOne();
+        if (ObjectUtils.notEmpty(packHideUnitAmountsLine)) {
+          saleOrderLineDataMap.put(
+              "packHideUnitAmounts", packHideUnitAmountsLine.getIsHideUnitAmounts());
         }
 
         Product product = saleOrderLine.getProduct();
         if (ObjectUtils.notEmpty(product)) {
-          saleOrderLineDataMap.put("productCode", product.getCode());
-          saleOrderLineDataMap.put("product_type_select", product.getProductTypeSelect());
+          saleOrderLineDataMap.putAll(getMap(product, "productCode", "productTypeSelect"));
           if (ObjectUtils.notEmpty(product.getPicture())) {
             saleOrderLineDataMap.put("productPicture", product.getPicture().getFilePath());
           }
@@ -100,54 +125,48 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
                     .collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(customerCatalogList)) {
               for (CustomerCatalog customerCatalog : customerCatalogList) {
-                Map<String, Object> customerCatalogMap = new HashMap<>();
-                customerCatalogMap.put("CustomerProductCode", customerCatalog.getProductCustomerCode());
-                customerCatalogMap.put("CustomerProductName", customerCatalog.getProductCustomerName());
+                Map<String, Object> customerCatalogMap =
+                    setOrderLineCustomerCatalogDataMap(customerCatalog);
+                customerCatalogMap.putAll(saleOrderLineDataMap);
+                customerCatalogMap.putAll(saleOrderDataMap);
                 dataMapList.add(customerCatalogMap);
               }
+            } else {
+              saleOrderLineDataMap.putAll(saleOrderDataMap);
+              dataMapList.add(saleOrderLineDataMap);
             }
           }
         }
-
-        if (ObjectUtils.notEmpty(saleOrderLine.getUnit())) {
-          saleOrderLineDataMap.put("UnitCode", saleOrderLine.getUnit().getLabelToPrinting());
-        }
-
-        if (ObjectUtils.notEmpty(saleOrderLine.getTaxLine())) {
-          saleOrderLineDataMap.put("tax_line", saleOrderLine.getTaxLine().getValue());
-        }
-
-        BigDecimal unitPrice =
-            saleOrder.getInAti() ? saleOrderLine.getInTaxPrice() : saleOrderLine.getPrice();
-            saleOrderLineDataMap.put("unit_price", unitPrice);
-
-        BigDecimal totalDiscountAmount =
-            saleOrderLine.getPriceDiscounted().subtract(unitPrice).multiply(saleOrderLine.getQty());
-        saleOrderLineDataMap.put("totalDiscountAmount", totalDiscountAmount);
-
-        Boolean isTitleLine =
-            saleOrderLine.getTypeSelect().equals(SaleOrderLineRepository.TYPE_TITLE);
-        saleOrderLineDataMap.put("is_title_line", isTitleLine);
-        SaleOrderLine packHideUnitAmountsLine =
-            Beans.get(SaleOrderLineRepository.class)
-                .all()
-                .filter(
-                    "self.saleOrder = ?1 AND self.typeSelect = ?2 AND self.sequence > ?3 ORDER BY self.sequence",
-                    saleOrder,
-                    SaleOrderLineRepository.TYPE_TITLE,
-                    saleOrderLine.getSequence())
-                .fetchOne();
-        if (ObjectUtils.notEmpty(packHideUnitAmountsLine)) {
-          saleOrderLineDataMap.put("PackHideUnitAmounts", packHideUnitAmountsLine.getIsHideUnitAmounts());
-        }
-        dataMapList.add(saleOrderLineDataMap);
       }
+    } else {
+      dataMapList.add(saleOrderDataMap);
     }
-    saleOrderDataMap.put("CurrencyCode", saleOrder.getCurrency().getCode());
-    saleOrderDataMap.put("in_ati", saleOrder.getInAti());
-    dataMapList.add(saleOrderDataMap);
 
     return dataMapList;
+  }
+
+  protected Map<String, Object> setOrderLineSaleOrderDataMap(SaleOrder saleOrder) {
+    return getMap(saleOrder, "inAti");
+  }
+
+  protected Map<String, Object> setOrderLineSaleOrderLineDataMap(SaleOrderLine saleOrderLine) {
+    return getMap(
+        saleOrderLine,
+        "id",
+        "description",
+        "quantity",
+        "productName",
+        "exTaxTotal",
+        "inTaxTotal",
+        "sequence",
+        "priceDiscounted",
+        "showTotal",
+        "hideUnitAmounts");
+  }
+
+  protected Map<String, Object> setOrderLineCustomerCatalogDataMap(
+      CustomerCatalog customerCatalog) {
+    return getMap(customerCatalog, "productCustomerCode", "productCustomerName");
   }
 
   @Override
@@ -305,8 +324,8 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
   public int getAppBase() {
     return Beans.get(AppBaseRepository.class).all().fetchOne().getNbDecimalDigitForUnitPrice();
   }
-  
-  public static Map<String,Object> getMap(Object model,String ...fields){
+
+  public static Map<String, Object> getMap(Object model, String... fields) {
     if (model == null) {
       return null;
     }
@@ -314,8 +333,8 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     final Mapper mapper = Mapper.of(model.getClass());
     List<String> fieldsList = Arrays.asList(fields);
     for (Property p : mapper.getProperties()) {
-      if(fieldsList.contains(p.getName()) && ObjectUtils.notEmpty(p.get(model))) {
-         map.put(p.getName(), p.get(model));
+      if (fieldsList.contains(p.getName()) && ObjectUtils.notEmpty(p.get(model))) {
+        map.put(p.getName(), p.get(model));
       }
     }
     return map;

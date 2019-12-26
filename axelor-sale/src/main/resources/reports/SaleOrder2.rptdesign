@@ -188,17 +188,17 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                 </structure>
                 <structure>
                     <property name="position">4</property>
-                    <property name="name">ProductName</property>
+                    <property name="name">productName</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
-                    <property name="name">ex_tax_total</property>
+                    <property name="name">exTaxTotal</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
-                    <property name="name">in_taxTotal</property>
+                    <property name="name">inTaxTotal</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -208,12 +208,12 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                 </structure>
                 <structure>
                     <property name="position">8</property>
-                    <property name="name">EstimatedDeliveryDate</property>
+                    <property name="name">estimatedDeliveryDate</property>
                     <property name="dataType">date</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
-                    <property name="name">price_discounted</property>
+                    <property name="name">priceDiscounted</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -228,17 +228,17 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                 </structure>
                 <structure>
                     <property name="position">12</property>
-                    <property name="name">UnitCode</property>
+                    <property name="name">unitCode</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
-                    <property name="name">unit_price</property>
+                    <property name="name">unitPrice</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">14</property>
-                    <property name="name">tax_line</property>
+                    <property name="name">taxLine</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -248,7 +248,7 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                 </structure>
                 <structure>
                     <property name="position">16</property>
-                    <property name="name">product_type_select</property>
+                    <property name="name">productTypeSelect</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -258,12 +258,12 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                 </structure>
                 <structure>
                     <property name="position">18</property>
-                    <property name="name">CustomerProductCode</property>
+                    <property name="name">productCustomerCode</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">19</property>
-                    <property name="name">CustomerProductName</property>
+                    <property name="name">productCustomerName</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -273,27 +273,27 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                 </structure>
                 <structure>
                     <property name="position">21</property>
-                    <property name="name">is_title_line</property>
+                    <property name="name">isTitleLine</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="position">22</property>
-                    <property name="name">PackHideUnitAmounts</property>
+                    <property name="name">packHideUnitAmounts</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="position">23</property>
-                    <property name="name">CurrencyCode</property>
+                    <property name="name">currencyCode</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="position">24</property>
-                    <property name="name">in_ati</property>
+                    <property name="name">inAti</property>
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
                     <property name="position">25</property>
-                    <property name="name">sale_order_type_select</property>
+                    <property name="name">saleOrderTypeSelect</property>
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
@@ -308,22 +308,22 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                     <property name="columnName">quantity</property>
                 </structure>
                 <structure>
-                    <property name="columnName">ProductName</property>
+                    <property name="columnName">productName</property>
                 </structure>
                 <structure>
-                    <property name="columnName">ex_tax_total</property>
+                    <property name="columnName">exTaxTotal</property>
                 </structure>
                 <structure>
-                    <property name="columnName">in_taxTotal</property>
+                    <property name="columnName">inTaxTotal</property>
                 </structure>
                 <structure>
                     <property name="columnName">sequence</property>
                 </structure>
                 <structure>
-                    <property name="columnName">EstimatedDeliveryDate</property>
+                    <property name="columnName">estimatedDeliveryDate</property>
                 </structure>
                 <structure>
-                    <property name="columnName">price_discounted</property>
+                    <property name="columnName">priceDiscounted</property>
                 </structure>
                 <structure>
                     <property name="columnName">showTotal</property>
@@ -332,46 +332,46 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                     <property name="columnName">hideUnitAmounts</property>
                 </structure>
                 <structure>
-                    <property name="columnName">UnitCode</property>
+                    <property name="columnName">unitCode</property>
                 </structure>
                 <structure>
-                    <property name="columnName">unit_price</property>
+                    <property name="columnName">unitPrice</property>
                 </structure>
                 <structure>
-                    <property name="columnName">tax_line</property>
+                    <property name="columnName">taxLine</property>
                 </structure>
                 <structure>
                     <property name="columnName">productCode</property>
                 </structure>
                 <structure>
-                    <property name="columnName">product_type_select</property>
+                    <property name="columnName">productTypeSelect</property>
                 </structure>
                 <structure>
                     <property name="columnName">productPicture</property>
                 </structure>
                 <structure>
-                    <property name="columnName">CustomerProductCode</property>
+                    <property name="columnName">productCustomerCode</property>
                 </structure>
                 <structure>
-                    <property name="columnName">CustomerProductName</property>
+                    <property name="columnName">productCustomerName</property>
                 </structure>
                 <structure>
                     <property name="columnName">totalDiscountAmount</property>
                 </structure>
                 <structure>
-                    <property name="columnName">is_title_line</property>
+                    <property name="columnName">isTitleLine</property>
                 </structure>
                 <structure>
-                    <property name="columnName">PackHideUnitAmounts</property>
+                    <property name="columnName">packHideUnitAmounts</property>
                 </structure>
                 <structure>
-                    <property name="columnName">CurrencyCode</property>
+                    <property name="columnName">currencyCode</property>
                 </structure>
                 <structure>
-                    <property name="columnName">in_ati</property>
+                    <property name="columnName">inAti</property>
                 </structure>
                 <structure>
-                    <property name="columnName">sale_order_type_select</property>
+                    <property name="columnName">saleOrderTypeSelect</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -393,17 +393,17 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">ProductName</property>
+                        <property name="name">productName</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">ex_tax_total</property>
+                        <property name="name">exTaxTotal</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">in_taxTotal</property>
+                        <property name="name">inTaxTotal</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
@@ -413,12 +413,12 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">EstimatedDeliveryDate</property>
+                        <property name="name">estimatedDeliveryDate</property>
                         <property name="dataType">date</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">price_discounted</property>
+                        <property name="name">priceDiscounted</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
@@ -433,17 +433,17 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                     </structure>
                     <structure>
                         <property name="position">12</property>
-                        <property name="name">UnitCode</property>
+                        <property name="name">unitCode</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">13</property>
-                        <property name="name">unit_price</property>
+                        <property name="name">unitPrice</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">14</property>
-                        <property name="name">tax_line</property>
+                        <property name="name">taxLine</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
@@ -453,7 +453,7 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                     </structure>
                     <structure>
                         <property name="position">16</property>
-                        <property name="name">product_type_select</property>
+                        <property name="name">productTypeSelect</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -463,12 +463,12 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                     </structure>
                     <structure>
                         <property name="position">18</property>
-                        <property name="name">CustomerProductCode</property>
+                        <property name="name">productCustomerCode</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">19</property>
-                        <property name="name">CustomerProductName</property>
+                        <property name="name">productCustomerName</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
@@ -478,27 +478,27 @@ packageClass = new com.axelor.apps.sale.service.saleorder.print.SaleOrderReportS
                     </structure>
                     <structure>
                         <property name="position">21</property>
-                        <property name="name">is_title_line</property>
+                        <property name="name">isTitleLine</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">22</property>
-                        <property name="name">PackHideUnitAmounts</property>
+                        <property name="name">packHideUnitAmounts</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">23</property>
-                        <property name="name">CurrencyCode</property>
+                        <property name="name">currencyCode</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">24</property>
-                        <property name="name">in_ati</property>
+                        <property name="name">inAti</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">25</property>
-                        <property name="name">sale_order_type_select</property>
+                        <property name="name">saleOrderTypeSelect</property>
                         <property name="dataType">integer</property>
                     </structure>
                 </list-property>
@@ -510,28 +510,28 @@ node = saleOrderLineList.next();
 	row["id"] = node.get("id");
 	row["description"] = node.get("description");
 	row["quantity"] = node.get("quantity");
-	row["ProductName"] = node.get("ProductName");
-	row["ex_tax_total"] = node.get("ex_tax_total");
-	row["in_taxTotal"] = node.get("in_taxTotal");
+	row["productName"] = node.get("productName");
+	row["exTaxTotal"] = node.get("exTaxTotal");
+	row["inTaxTotal"] = node.get("inTaxTotal");
 	row["sequence"] = node.get("sequence");
-	row["EstimatedDeliveryDate"] = node.get("EstimatedDeliveryDate");
-	row["price_discounted"] = node.get("price_discounted");
+	row["estimatedDeliveryDate"] = node.get("estimatedDeliveryDate");
+	row["priceDiscounted"] = node.get("priceDiscounted");
 	row["showTotal"] = node.get("showTotal");
 	row["hideUnitAmounts"] = node.get("hideUnitAmounts");
-	row["UnitCode"] = node.get("UnitCode");
-	row["unit_price"] = node.get("unit_price");
-	row["tax_line"] = node.get("tax_line");
+	row["unitCode"] = node.get("unitCode");
+	row["unitPrice"] = node.get("unitPrice");
+	row["taxLine"] = node.get("taxLine");
 	row["productCode"] = node.get("productCode");
-	row["product_type_select"] = node.get("product_type_select");
+	row["productTypeSelect"] = node.get("productTypeSelect");
 	row["productPicture"] = node.get("productPicture");
-	row["CustomerProductCode"] = node.get("CustomerProductCode");
-	row["CustomerProductName"] = node.get("CustomerProductName");
+	row["productCustomerCode"] = node.get("productCustomerCode");
+	row["productCustomerName"] = node.get("productCustomerName");
 	row["totalDiscountAmount"] = node.get("totalDiscountAmount");
-	row["is_title_line"] = node.get("is_title_line");
-	row["PackHideUnitAmounts"] = node.get("PackHideUnitAmounts");
-	row["CurrencyCode"] = node.get("CurrencyCode");
-	row["in_ati"] = node.get("in_ati");
-	row["sale_order_type_select"] = node.get("sale_order_type_select");
+	row["isTitleLine"] = node.get("isTitleLine");
+	row["packHideUnitAmounts"] = node.get("packHideUnitAmounts");
+	row["currencyCode"] = node.get("currencyCode");
+	row["inAti"] = node.get("inAti");
+	row["saleOrderTypeSelect"] = node.get("saleOrderTypeSelect");
 	return true;
 }
 return false;]]></method>
