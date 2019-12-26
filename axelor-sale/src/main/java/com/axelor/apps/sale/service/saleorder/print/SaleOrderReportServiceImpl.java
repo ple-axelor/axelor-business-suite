@@ -141,7 +141,6 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
     } else {
       dataMapList.add(saleOrderDataMap);
     }
-
     return dataMapList;
   }
 
@@ -172,19 +171,23 @@ public class SaleOrderReportServiceImpl implements SaleOrderReportService {
   @Override
   public List<Map<String, Object>> getSaleOrderLineTaxData(Long saleOrderId) {
     SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
-    Map<String, Object> dataMap = new HashMap<>();
+    List<Map<String, Object>> dataMapList = new ArrayList<>();
 
     List<SaleOrderLineTax> saleOrderLineTaxList = saleOrder.getSaleOrderLineTaxList();
     if (CollectionUtils.isNotEmpty(saleOrderLineTaxList)) {
       for (SaleOrderLineTax saleOrderLineTax : saleOrderLineTaxList) {
-        dataMap.put("ex_tax_base", saleOrderLineTax.getExTaxBase());
-        dataMap.put("tax_total", saleOrderLineTax.getTaxTotal());
+        Map<String, Object> dataMap = setSaleOrderLineTaxDataMap(saleOrderLineTax);
         if (ObjectUtils.notEmpty(saleOrderLineTax.getTaxLine())) {
           dataMap.put("value", saleOrderLineTax.getTaxLine().getValue());
         }
+        dataMapList.add(dataMap);
       }
     }
-    return Lists.newArrayList(dataMap);
+    return dataMapList;
+  }
+
+  protected Map<String, Object> setSaleOrderLineTaxDataMap(SaleOrderLineTax saleOrderLineTax) {
+    return getMap(saleOrderLineTax, "exTaxBase", "taxTotal");
   }
 
   @Override

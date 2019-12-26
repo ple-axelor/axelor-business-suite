@@ -18,6 +18,7 @@
 package com.axelor.apps.supplychain.print;
 
 import com.axelor.apps.sale.db.SaleOrder;
+import com.axelor.apps.sale.db.SaleOrderLineTax;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.apps.sale.service.saleorder.print.SaleOrderReportServiceImpl;
 import com.axelor.apps.tool.date.DateTool;
@@ -30,23 +31,17 @@ import java.util.Map;
 public class SaleOrderReportServiceSupplychainImpl extends SaleOrderReportServiceImpl {
 
   @Override
-  public List<Map<String, Object>> getSaleOrderLineData(Long saleOrderId) {
-    List<Map<String, Object>> dataMapList = super.getSaleOrderLineData(saleOrderId);
-    Map<String, Object> dataMap = new HashMap<>();
-    SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
-    dataMap.put("sale_order_type_select", saleOrder.getSaleOrderTypeSelect());
-    dataMapList.add(dataMap);
-    return dataMapList;
+  protected Map<String, Object> setOrderLineSaleOrderDataMap(SaleOrder saleOrder) {
+    Map<String, Object> map = super.setOrderLineSaleOrderDataMap(saleOrder);
+    map.put("saleOrderTypeSelect", saleOrder.getSaleOrderTypeSelect());
+    return map;
   }
 
   @Override
-  public List<Map<String, Object>> getSaleOrderLineTaxData(Long saleOrderId) {
-    List<Map<String, Object>> dataMapList = super.getSaleOrderLineTaxData(saleOrderId);
-    Map<String, Object> dataMap = new HashMap<>();
-    SaleOrder saleOrder = Beans.get(SaleOrderRepository.class).find(saleOrderId);
-    dataMap.put("sale_order_type_select", saleOrder.getSaleOrderTypeSelect());
-    dataMapList.add(dataMap);
-    return dataMapList;
+  protected Map<String, Object> setSaleOrderLineTaxDataMap(SaleOrderLineTax saleOrderLineTax) {
+    Map<String, Object> map = super.setSaleOrderLineTaxDataMap(saleOrderLineTax);
+    map.put("saleOrderTypeSelect", saleOrderLineTax.getSaleOrder().getSaleOrderTypeSelect());
+    return map;
   }
 
   @Override

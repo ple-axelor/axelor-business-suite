@@ -540,12 +540,12 @@ return false;]]></method>
             <list-property name="resultSetHints">
                 <structure>
                     <property name="position">1</property>
-                    <property name="name">ex_tax_base</property>
+                    <property name="name">exTaxBase</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
-                    <property name="name">tax_total</property>
+                    <property name="name">taxTotal</property>
                     <property name="dataType">decimal</property>
                 </structure>
                 <structure>
@@ -555,34 +555,34 @@ return false;]]></method>
                 </structure>
                 <structure>
                     <property name="position">4</property>
-                    <property name="name">sale_order_type_select</property>
+                    <property name="name">saleOrderTypeSelect</property>
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
             <list-property name="columnHints">
                 <structure>
-                    <property name="columnName">ex_tax_base</property>
+                    <property name="columnName">exTaxBase</property>
                 </structure>
                 <structure>
-                    <property name="columnName">tax_total</property>
+                    <property name="columnName">taxTotal</property>
                 </structure>
                 <structure>
                     <property name="columnName">value</property>
                 </structure>
                 <structure>
-                    <property name="columnName">sale_order_type_select</property>
+                    <property name="columnName">saleOrderTypeSelect</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
                         <property name="position">1</property>
-                        <property name="name">ex_tax_base</property>
+                        <property name="name">exTaxBase</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
                         <property name="position">2</property>
-                        <property name="name">tax_total</property>
+                        <property name="name">taxTotal</property>
                         <property name="dataType">decimal</property>
                     </structure>
                     <structure>
@@ -592,7 +592,7 @@ return false;]]></method>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">sale_order_type_select</property>
+                        <property name="name">saleOrderTypeSelect</property>
                         <property name="dataType">integer</property>
                     </structure>
                 </list-property>
@@ -601,10 +601,10 @@ return false;]]></method>
             <method name="open"><![CDATA[saleOrderLineTaxList = packageClass.getSaleOrderLineTaxData(params["SaleOrderId"]).iterator();]]></method>
             <method name="fetch"><![CDATA[if(saleOrderLineTaxList.hasNext()){
 node = saleOrderLineTaxList.next();
-	row["ex_tax_base"] = node.get("ex_tax_base");
-	row["tax_total"] = node.get("tax_total");
+	row["exTaxBase"] = node.get("exTaxBase");
+	row["taxTotal"] = node.get("taxTotal");
 	row["value"] = node.get("value");
-	row["sale_order_type_select"] = node.get("sale_order_type_select");
+	row["saleOrderTypeSelect"] = node.get("saleOrderTypeSelect");
 	return true;
 }
 return false;]]></method>
