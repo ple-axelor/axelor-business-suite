@@ -251,6 +251,10 @@
 				</field>
 			</panel>
 			
+			<panel name="moveLinesPanel" title="Move lines">
+				<field name="isDescriptionRequired" widget="boolean-switch"/>
+			</panel>
+			
 		</panel-tabs>
 		
 		<panel-mail name="mailPanel">
